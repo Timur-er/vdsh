@@ -1,0 +1,71 @@
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+  padding: 15px 0 5px 0;
+}
+
+.form {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0 15px 0;
+}
+
+.inputsWrapper {
+  display: flex;
+  column-gap: 50px;
+  width: 60%;
+}
+
+.quantityInput {
+  width: 50px;
+  text-align: center;
+}
+
+.orderButtons {
+  padding: 15px 0;
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 10px;
+}
+
+.orderBtn {
+  background-color: inherit;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+  transition: 0.3s ease all;
+}
+
+.orderBtn:hover {
+  background-color: lightgreen;
+}
+
+.inputLabel {
+  display: flex;
+  align-items: center;
+  vertical-align: center;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.errorMsg {
+  color: red;
+  position: absolute;
+  font-size: 14px;
+  margin-top: 35px;
+}
+
+.orderSameData {
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+  vertical-align: center;
+  padding-bottom: 10px;
+}
+

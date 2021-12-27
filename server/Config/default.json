@@ -1,0 +1,8 @@
+{
+  "port": 5000,
+  "db_name": "vdsh",
+  "db_user": "bigt",
+  "db_password": "yyyy",
+  "db_host": "localhost",
+  "db_port": 5432
+}

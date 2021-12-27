@@ -1,0 +1,14 @@
+.navItem {
+  list-style-type: none;
+}
+.navUl {
+  //margin: 0;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 30px;
+  align-items: center;
+  vertical-align: center;
+  font-family: sans-serif;
+}

@@ -1,0 +1,18 @@
+.pageWrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+.formWrapper {
+  flex-direction: column;
+  display: flex;
+  row-gap: 30px;
+  width: 60%;
+}
+
+.orderWrapper {
+  background-color: lightblue;
+  border-radius: 5px;
+  padding: 20px;
+}
