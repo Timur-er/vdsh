@@ -1,6 +1,6 @@
 import React from 'react';
 import Container from "../../Components/Container/Container";
-import OrderField from "../../Components/OrderField/OrderField";
+import CreateItemField from "../../Components/CreateItemField/CreateItemField";
 import styles from './AddProductsPage.module.scss';
 
 const AddProductsPage = () => {
@@ -9,7 +9,7 @@ const AddProductsPage = () => {
             <div className={styles.pageWrapper}>
                 <div className={styles.formWrapper}>
                     <div className={styles.orderWrapper}>
-                        <OrderField/>
+                        <CreateItemField/>
                     </div>
                 </div>
             </div>

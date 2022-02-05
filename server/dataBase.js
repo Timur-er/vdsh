@@ -1,24 +1,13 @@
-// const Pool = require('pg').Pool
-// const pool = new Pool({
-//     user: 'bigt',
-//     password: 'yyyy',
-//     host: 'localhost',
-//     port: 5432,
-//     database: 'vdsh',
-// })
-//
-// module.exports = pool;
-
 const {Sequelize} = require('sequelize');
 const config = require('config');
 
 module.exports = new Sequelize(
-    config.get('db_name'),
-    config.get('db_user'),
-    config.get('db_password'),
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.USER_PASSWORD,
     {
         dialect: 'postgres',
-        host:config.get('db_host'),
-        port: config.get('db_port')
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT
     }
 )

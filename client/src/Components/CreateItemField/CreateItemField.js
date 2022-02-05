@@ -1,17 +1,15 @@
-import React, {useRef, useState} from 'react';
-import styles from './OrderField.module.scss';
-import {Form, Formik, Field, ErrorMessage, useFormik, FieldArray, getIn} from "formik";
+import React from 'react';
+import styles from './CreateItemField.module.scss';
+import {Form, Formik, Field, ErrorMessage, FieldArray} from "formik";
 import * as Yup from 'yup';
 import {useHttp} from "../../Hooks/http.hook";
+import {addRopes} from "../../http/ropesAPI";
 
-const OrderField = () => {
-   const {loading, error, request} = useHttp();
+const CreateItemField = () => {
+   const {request} = useHttp();
 
 
     const validationSchema = Yup.object().shape({
-        // address: Yup
-        //     .string()
-        //     .required('укажите адресс'),
         brand: Yup
             .string()
             .required('Укажите марку'),
@@ -21,7 +19,7 @@ const OrderField = () => {
                     .string()
                     .min(1, 'введите кол-во')
                     .required('это обязатенльое поле'),
-                color: Yup
+                color_id: Yup
                     .string()
                     .min(4, '4')
                     .max(4, '4')
@@ -31,18 +29,13 @@ const OrderField = () => {
     })
 
     const initialValues = {
-        // address: 'chreshatyk',
         brand: 'DMC',
         order: [
             {
                 quantity: '',
-                color: ''
+                color_id: ''
             }
         ]
-    }
-
-    const confirmBtn = () => {
-
     }
 
     return (
@@ -51,27 +44,17 @@ const OrderField = () => {
                 validateOnChange={true}
                 initialValues={initialValues}
                 validationSchema={validationSchema}
-                onSubmit={async (values, {setSubmitting}) => {
-                    const {brand, order} = values;
-                    const createBrand = await request('http://localhost:5000/api/ropes/addRopeBrand', 'POST', {brand});
-                    const addRopesItems = await request('http://localhost:5000/api/ropes/addRopeItem', 'POST', {order, brandId: createBrand})
-                    console.log(createBrand);
-                    console.log(values);
+                onSubmit={async (values, {setSubmitting, resetForm}) => {
+                    const {brand : brandName, order} = values;
+                    const fetchedRopes = await addRopes(order, brandName);
+                    alert(fetchedRopes.data)
+                    resetForm()
                     setSubmitting(false);
                 }}
             >
                 {({values, handleSubmit, errors, touched, setTouched}) => (
                     <Form onSubmit={handleSubmit}>
                         <div className={styles.orderSameData}>
-                            {/*<div>*/}
-                            {/*    Магазин:*/}
-                            {/*    <Field as='select' name="address" id="address">*/}
-                            {/*        <option value="creshatyk">Крешатик</option>*/}
-                            {/*        <option value="darnitsa">Дарница</option>*/}
-                            {/*        <option value="teremki">Теремки</option>*/}
-                            {/*    </Field>*/}
-                            {/*</div>*/}
-
                             <div>
                                 Производитель:
                                 <Field as='select' name="brand" id="brand">
@@ -90,7 +73,7 @@ const OrderField = () => {
                                         {
                                             values.order.map((x, index) => {
                                                 return (
-                                                    <div className={styles.form}>
+                                                    <div key={index} className={styles.form}>
                                                         <div className={styles.inputsWrapper}>
                                                             <div className={styles.inputLabel}>
                                                                 <label>Количество:</label>
@@ -102,12 +85,12 @@ const OrderField = () => {
                                                             <div className={styles.inputLabel}>
                                                                 <label>Цвет №:</label>
                                                                 <div className={styles.inputContainer}>
-                                                                    <Field name={`order.${index}.color`}/>
+                                                                    <Field name={`order.${index}.color_id`}/>
                                                                 </div>
-                                                                <span className={styles.errorMsg}><ErrorMessage name={`order.${index}.color`}/></span>
+                                                                <span className={styles.errorMsg}><ErrorMessage name={`order.${index}.color_id`}/></span>
                                                             </div>
                                                         </div>
-                                                        <button onClick={() => remove(index)}>Удалить</button>
+                                                        <button type='submit' onClick={() => remove(index)}>Удалить</button>
                                                     </div>
                                                 )
                                             })
@@ -117,7 +100,7 @@ const OrderField = () => {
                                     <div className={styles.orderButtons}>
                                         <button type={'submit'} className={styles.orderBtn}>Оформить заказ</button>
                                         <button onClick={() => {
-                                            push({quantity: '', color: ''})
+                                            push({quantity: '', color_id: ''})
                                         }} className={styles.orderBtn}>
                                             Добавить цвет
                                         </button>
@@ -132,4 +115,4 @@ const OrderField = () => {
     );
 };
 
-export default OrderField;
+export default CreateItemField;

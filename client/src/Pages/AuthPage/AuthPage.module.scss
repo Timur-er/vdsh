@@ -1,0 +1,77 @@
+.authPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 10%;
+}
+
+.tabs {
+  width: 40%;
+  border-radius: 5px;
+  box-shadow: 0 0 40px 10px #ff6d6d;
+}
+
+.formWrapper {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+}
+
+.buttonBlock {
+  display: flex;
+  margin-top: 30px;
+  //justify-content: center;
+  //width: 100%;
+}
+
+.button {
+  margin-right: 20px;
+  height: 30px;
+  background-color: white;
+  border: 1px solid gray;
+  transition: 0.3s ease all;
+}
+
+.button:hover {
+  border-radius: 10px;
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+.authWayButtons {
+  //width: 100%;
+  display: flex;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  margin: 0;
+  padding: 0;
+}
+
+.authWay {
+  color: black;
+  font-size: 20px;
+  background-color: inherit;
+  border: none;
+  width: 50%;
+  padding: 20px 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  list-style-type: none;
+  text-align: center;
+}
+
+.activeAuthWay {
+  background-color: #ff6d6d;
+}
+
+.form {
+  padding: 0 20px;
+}
+
+.activeAuthForm {
+  background-color: #ff6d6d;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+

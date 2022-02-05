@@ -6,13 +6,19 @@ const {where} = require("sequelize");
 
 class controller {
     async addRopeBrand(req, res) {
-        const {brand} = req.body;
-        const newRopeBrand = await ropesBrand.create({brand});
-        console.log(newRopeBrand.id)
-        res.json(newRopeBrand.id);
+        const {brandName} = req.body;
+        const isBrandExist = await ropesBrand.findAll({where: {brandName}});
+        if (!isBrandExist.length) {
+            const newRopeBrand = await ropesBrand.create({brandName});
+            console.log(newRopeBrand.id);
+            return res.json(newRopeBrand.id);
+        } else {
+            const {dataValues} = isBrandExist[0];
+            return res.json(dataValues.id)
+        }
     }
 
-    async addRopeItem(req, res) {
+    async addRopesItems(req, res) {
         const {order, brandId} = req.body;
         try {
             for (const rope of order) {
@@ -21,32 +27,41 @@ class controller {
             }
         } catch (e) {
             console.log(e);
-            res.json(e.message);
+           return  res.json(e.message);
         }
-
-        // console.log(color_id, quantity);
-        // const newRopeItem = await db.query('INSERT INTO ropesinstock (color_id, quantity, brand) values($1, $2, $3) RETURNING *', [color_id, quantity, brand])
         res.json('added ropes to bd')
     }
 
     async getAllRopesByBrand(req, res) {
-        const brand = req.body.brand;
-        console.log(brand);
-        const ropes = await ropesInStock.findAll({where: {brand}});
-        res.json(ropes);
+        const brandId = req.params.id;
+        console.log(brandId);
+        const ropes = await ropesInStock.findAll({where: {brandId}});
+        return res.json(ropes);
     }
 
-    async createOrder (req, res) {
+    async createOrder(req, res) {
+    }
+
+    async addProduct(req, res) {
 
     }
 
-    async addProduct (req, res) {
-
+    async getAllRopes(req, res) {
+        const ropes = await ropesInStock.findAll();
+        return res.json(ropes)
     }
 
-    async getAllRopes (req, res) {
+    async isBrandExist(req, res) {
+        const brandName = req.body.brandName
+        const brand = await ropesBrand.findAll({where: {brandName}})
+        return res.json(brand)
+    }
 
+    async getAllBrands(req, res) {
+        const brand = await ropesBrand.findAll();
+        return res.json(brand);
     }
 }
+
 
 module.exports = new controller();

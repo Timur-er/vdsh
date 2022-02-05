@@ -1,0 +1,37 @@
+.formWrapper {
+  display: flex;
+  width: 100%;
+  padding: 20px;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  display: flex;
+  width: 90%;
+  height: 30px;
+  border: none;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.errorMessage {
+  padding-left: 10px;
+  color: red;
+}
+
+.submitButton {
+  padding: 5px;
+  background-color: white;
+  border-radius: 10px;
+  border: none;
+  margin-top: 30px;
+}
+
+.submitButton:hover {
+  cursor: pointer;
+}

@@ -1,25 +1,21 @@
-.order {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  row-gap: 30px;
-  background-color: lightblue;
-  border-radius: 5px;
-  width: 100%;
-}
-
 .orderWrapper {
   display: flex;
+  width: 60%;
+  border: 1px solid gray;
+  padding: 15px;
+  //column-gap: 30px;
   flex-direction: column;
-  row-gap: 15px;
-  padding: 15px 15px 5px 15px;
-  //border: 1px solid white;
-  border-radius: 5px;
+  row-gap: 10px;
+  margin-bottom: 30px;
 }
 
-.orderForAddress {
+.orderDetails{
   display: flex;
-  column-gap: 10px;
-  align-items: center;
-  vertical-align: center;
+  column-gap: 20px;
+}
+
+.order {
+  height: 0;
+  overflow: hidden;
+  transition: 0.5s ease all;
 }
