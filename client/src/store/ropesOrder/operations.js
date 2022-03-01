@@ -1,4 +1,3 @@
-import {getRopesOrder} from "./selectors";
 import {addRopeBrandToOrder, addRopeToOrder, addShopId} from "./actions";
 
 export const addRopeOrder = (color_id, quantity, ropesOrder) => dispatch => {

@@ -13,10 +13,16 @@ const initialStore = {
         surname: '',
         shop_id: '',
         token: '',
+        role: '',
         isAuth: false,
         login: snoop,
         isActivated: false
-    }
+    },
+    menu: {
+        isOpen: true,
+        activePage: ''
+    },
+    availableRoutes: [],
 }
 
 export default initialStore;

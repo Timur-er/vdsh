@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import AppRoutes from "./routes/AppRoutes";
-import {getIsActivated, getIsAuth} from "./store/User/selectors";
+import {getIsAuth} from "./store/User/selectors";
 import {useDispatch, useSelector} from "react-redux";
 import {useAuth} from "./Hooks/auth.hook";
 import {authFunctionsActions} from "./store/User/actions";
@@ -14,15 +14,11 @@ function App() {
 
     useEffect(() => {
         dispatch(authFunctionsActions(login));
-    }, [])
+    }, [dispatch, login])
 
   return (
       <>
           {isAuth ? <AppRoutes/> : <AuthPage/>}
-
-          {/*<Header/>*/}
-          {/*<AddProductsPage/>*/}
-        {/*<OrderPage/>*/}
       </>
   );
 }

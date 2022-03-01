@@ -21,25 +21,22 @@ const RopesTable = ({ropes}) => {
                     <SelectQuantity color_id={rope.color_id}/>
                 </div>
             </div>
-            )
-        })
+        )
+    })
 
     const confirmOrder = async (e) => {
         e.preventDefault();
         const {shop_id, brandData, order} = orderData;
-        console.log(brandData);
         const {id: brand_id} = brandData;
-        console.log(brand_id);
         const createdOrder = await createOrder(user_id, shop_id, brand_id, order);
-        console.log(createdOrder);
     }
 
     return (
         <>
             <div className={styles.tableWrapper}>
-                    <div className={styles.table}>
-                        {ropesTable}
-                    </div>
+                <div className={styles.table}>
+                    {ropesTable}
+                </div>
                 <button onClick={(e) => confirmOrder(e)} className={styles.submitOrder}>Оформить заказ</button>
             </div>
         </>

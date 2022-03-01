@@ -25,10 +25,9 @@ const AuthenticateForm = () => {
                 }}
                 validationSchema={validationSchema}
                 onSubmit={async (values, {setSubmitting}) => {
-                    const { email: userEmail, password: userPassword } = values;
+                    const {email: userEmail, password: userPassword} = values;
                     const authUser = await loginAPI(userEmail, userPassword);
-                    // am I need isActivated flag here
-                    const {user_id, email, name, surname, shop_id} = authUser.data.user;
+                    const {user_id, email, name, surname, shop_id, role} = authUser.data.user;
                     login(user_id, email, name, surname, shop_id, authUser.data.accessToken);
                     navigate(USER_PAGE)
                     setSubmitting(false)

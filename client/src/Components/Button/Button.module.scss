@@ -1,0 +1,32 @@
+.button {
+  background-color: cornflowerblue;
+  border-radius: 5px;
+  padding: 10px 20px;
+  border: 1px solid white;
+  color: white;
+  font-size: 18px;
+  font-weight: lighter;
+  transition: 0.3s ease all;
+}
+
+.button:hover {
+  cursor: pointer;
+  background-color: inherit;
+  border: 1px solid cornflowerblue;
+  color: cornflowerblue;
+}
+
+.detailsBtn {
+  color: white;
+  font-weight: lighter;
+  padding: 5px 10px;
+  background-color: inherit;
+  border: 1px solid white;
+  border-radius: 5px;
+  transition: 0.3s ease all;
+}
+
+.detailsBtn:hover {
+  background-color: white;
+  color: cornflowerblue;
+}

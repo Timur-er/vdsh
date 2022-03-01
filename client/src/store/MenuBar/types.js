@@ -1,0 +1,1 @@
+export const MENU_BAR_TOGGLE = 'menuBarToggle';

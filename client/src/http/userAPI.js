@@ -19,3 +19,8 @@ export const getNewAccessTokenAPI = async () => {
     const response = await $host.get('api/user/refresh');
     return response;
 }
+
+export const getAllUsers = async () => {
+    const users = await $authHost.get('api/user/getAllUsers');
+    return users;
+}

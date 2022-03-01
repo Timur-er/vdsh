@@ -1,5 +1,6 @@
-const {Orders, OrderDetails, ropesBrand} = require('../models/models');
+const {Orders, OrderDetails, ropesBrand, ProductsForOrder, ProductsForOrderDetails} = require('../models/models');
 const orderService = require('../service/order-service');
+const ropesService = require('../service/ropes-service');
 
 class controller {
     async createOrder(req, res) {
@@ -10,6 +11,7 @@ class controller {
             const createOrder = await Orders.create({user_id, shop_id, brand_id, order_status: 'active', order_date: date});
             const order_id = createOrder.id;
             console.log(orderDetails);
+            await ropesService.updateAvailableQuantity(brand_id, shop_id, orderDetails)
             for (const order of orderDetails) {
                 const {color_id, quantity} = order;
                 await OrderDetails.create({order_id, color_id, quantity});
@@ -56,6 +58,24 @@ class controller {
     async getAllOrders(req, res) {
         try {
 
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async getProductsForOrderByBrand(req, res) {
+        try {
+            const products_for_order = [];
+            const orders = await ProductsForOrder.findAll();
+            for (let order of orders) {
+                const {brand_id, order_status, id, order_date} = order;
+                const brand_name = await ropesBrand.findOne({where: {id: brand_id}});
+                const order_details = await ProductsForOrderDetails.findAll({where: {products_for_order_id: id}});
+                products_for_order.push({brand_name: brand_name.brandName, order_status, order_details, id, order_date});
+            }
+            // const order = await ProductsForOrder.findOne({where: {brand_id: brand_id}});
+            // const productsForOrder = await ProductsForOrderDetails.findAll({where: {products_for_order_id: order.id}})
+            return res.json(products_for_order);
         } catch (e) {
             console.log(e);
         }

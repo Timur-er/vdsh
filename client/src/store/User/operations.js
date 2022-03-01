@@ -1,7 +1,7 @@
 import {loginUser} from "./actions";
 
-export const loginUserOperation = (user_id, email, name, surname, shop_id, token, isActivated) => dispatch => {
-    const user = {user_id, email, name, surname, shop_id, token, isAuth: true, isActivated}
+export const loginUserOperation = (user_id, email, name, surname, shop_id, role, token, isActivated) => dispatch => {
+    const user = {user_id, email, name, surname, shop_id, role, token, isAuth: true, isActivated}
     dispatch(loginUser(user));
 }
 

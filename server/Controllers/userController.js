@@ -126,10 +126,7 @@ class UserController {
 
     async changeUserRole(req, res, next) {
         try {
-            const user_id = req.params.user_id;
-            const newRole = req.params.role;
-            console.log(newRole);
-            console.log(user_id);
+            const {user_id, newRole} = req.body;
             const newUser = await userService.changeUserRole(user_id, newRole);
             return res.json(newUser);
         } catch (e) {

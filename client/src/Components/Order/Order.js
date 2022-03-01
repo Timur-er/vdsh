@@ -1,6 +1,7 @@
 import React, {useRef, useState} from 'react';
 import styles from './Order.module.scss';
 import OrderTable from "../OrderTable/OrderTable";
+import Button from "../Button/Button";
 
 const Order = ({orderStatus, orderDetails, brandName, orderId, orderDate}) => {
     const [isOrderOpen, serIsOrderOpen] = useState(false);
@@ -43,9 +44,10 @@ const Order = ({orderStatus, orderDetails, brandName, orderId, orderDate}) => {
             </div>
 
             <div>
-                <button onClick={openDescription}>
-                    {isOrderOpen ? 'Скрыть заказ' : 'Посмотреть заказ'}
-                </button>
+                {/*<button onClick={openDescription}>*/}
+                {/*    {isOrderOpen ? 'Скрыть заказ' : 'Посмотреть заказ'}*/}
+                {/*</button>*/}
+                <Button onClick={() => openDescription()} text={isOrderOpen ? 'Скрыть заказ' : 'Посмотреть заказ'} type={'detailsBtn'} />
             </div>
 
         </div>

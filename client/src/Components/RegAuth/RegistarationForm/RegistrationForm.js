@@ -3,7 +3,6 @@ import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from 'yup';
 import styles from './RegistrationForm.module.scss';
 import {registrationAPI} from "../../../http/userAPI";
-import {useDispatch} from "react-redux";
 import {USER_PAGE} from "../../../routes/const";
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../../../Hooks/auth.hook";
@@ -48,8 +47,6 @@ const RegistrationForm = () => {
                     const {email, name, surname, shopAddress, password} = values;
                     const newUser = await registrationAPI(email, name, surname, shopAddress, password);
                     const {user_id, email: userEmail, name: userName, surname: userSurname, shop_id, isActivated} = newUser.data.user;
-                    console.log(newUser);
-                    console.log(newUser.data);
                     login(user_id, userEmail, userName, userSurname, shop_id, newUser.data.accessToken, isActivated);
                     navigate(USER_PAGE)
                     setSubmitting(false);

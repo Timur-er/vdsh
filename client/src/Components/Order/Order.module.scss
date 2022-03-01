@@ -1,8 +1,12 @@
 .orderWrapper {
   display: flex;
   width: 60%;
-  border: 1px solid gray;
+  background-color: cornflowerblue;
+  color: white;
+  border: 1px solid white;
   padding: 15px;
+  border-radius: 10px;
+  font-weight: lighter;
   //column-gap: 30px;
   flex-direction: column;
   row-gap: 10px;

@@ -1,0 +1,25 @@
+.navigation {
+  position: fixed;
+  width: 300px;
+  height: 100vh;
+  //border-left: 5px solid cornflowerblue;
+  background-color: cornflowerblue;
+  overflow: hidden;
+  transition: 0.4s ease all;
+}
+
+.navigationClose {
+  width: 80px;
+}
+
+.burgerWrapper {
+  padding: 20px 0  0 30px;
+}
+
+.ul {
+  top: 0;
+  left: 0;
+  margin-left: -30px;
+}
+
+

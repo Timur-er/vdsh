@@ -63,6 +63,23 @@ const OrderDetails = sequelize.define('orderDetails', {
     quantity: {type: DataTypes.INTEGER}
 })
 
+
+
+const ProductsForOrder = sequelize.define('productsForOrder', {
+    // + id
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    shop_id: {type: DataTypes.INTEGER},
+    brand_id: {type: DataTypes.INTEGER},
+    order_status: {type: DataTypes.STRING, default: false},
+    order_date: {type: DataTypes.STRING}
+})
+
+const ProductsForOrderDetails = sequelize.define('productsForOrderDetails', {
+    products_for_order_id: {type: DataTypes.INTEGER},
+    color_id: {type: DataTypes.STRING},
+    quantity: {type: DataTypes.INTEGER}
+})
+
 ropesBrand.hasMany(ropesInStock);
 ropesInStock.belongsTo(ropesBrand);
 
@@ -82,5 +99,7 @@ module.exports = {
     Orders,
     ShopAddresses,
     UserTokens,
-    OrderDetails
+    OrderDetails,
+    ProductsForOrder,
+    ProductsForOrderDetails
 }

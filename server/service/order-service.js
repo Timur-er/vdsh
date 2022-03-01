@@ -1,4 +1,4 @@
-const {Orders, ropesBrand, OrderDetails} = require("../models/models");
+const {Orders, ropesBrand, OrderDetails, ProductsForOrder, ProductsForOrderDetails} = require("../models/models");
 
 class OrderService {
     // нужно будет подумать как вынести логику из двух функций в другое место
@@ -31,6 +31,11 @@ class OrderService {
             responseData.push(orderData);
         }
         return responseData;
+    }
+
+    async createProductsForOrder(color_id, quantity, brandId, shop_id, order_date) {
+        const createOrder = await ProductsForOrder.create({shop_id, brand_id: brandId, order_status: 'active', order_date});
+        await ProductsForOrderDetails.create({products_for_order_id: createOrder.id, color_id, quantity, brandId});
     }
 }
 

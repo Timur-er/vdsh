@@ -13,8 +13,7 @@ const $authHost = axios.create({
 
 // нужно допилить этот функционал на бэке
 const authInterceptor = config => {
-    const userData = JSON.parse(localStorage.getItem('userData'));
-    const token = userData.jwtToken;
+    const token = JSON.parse(localStorage.getItem('jwtToken'));
     console.log(token);
     config.headers.Authorization = `Bearer ${token}`;
     return config;
@@ -24,8 +23,8 @@ $authHost.interceptors.request.use(authInterceptor);
 $authHost.interceptors.response.use((config) => {
     return config;
 }, (error => {
-    if (error.response.status == 401) {
-        // to do
+    if (error.response.status === 401) {
+        console.log('Unauthorized error')
     }
 }))
 

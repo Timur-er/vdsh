@@ -1,0 +1,20 @@
+.contentContainer {
+  //display: flex;
+  display: flex;
+  // это значение нужно будет как-то изменять при нажатии на бургер
+  //left: 300px;
+  margin-left: 300px;
+  //max-width: calc(100% - 300px);
+  width: calc(100% - 300px);
+  //height: 100vh;
+  //background: #ff6d6d;
+  padding: 20px;
+  transition: 0.4s ease all;
+}
+
+.whenMenuBarClosed {
+  width: calc(100% - 80px);
+  //left: 80px;
+  //width: 100%;
+  margin-left: 80px;
+}

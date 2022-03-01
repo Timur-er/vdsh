@@ -2,12 +2,9 @@ import React from 'react';
 import styles from './CreateItemField.module.scss';
 import {Form, Formik, Field, ErrorMessage, FieldArray} from "formik";
 import * as Yup from 'yup';
-import {useHttp} from "../../Hooks/http.hook";
 import {addRopes} from "../../http/ropesAPI";
 
 const CreateItemField = () => {
-   const {request} = useHttp();
-
 
     const validationSchema = Yup.object().shape({
         brand: Yup
@@ -45,7 +42,7 @@ const CreateItemField = () => {
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={async (values, {setSubmitting, resetForm}) => {
-                    const {brand : brandName, order} = values;
+                    const {brand: brandName, order} = values;
                     const fetchedRopes = await addRopes(order, brandName);
                     alert(fetchedRopes.data)
                     resetForm()
@@ -53,7 +50,7 @@ const CreateItemField = () => {
                 }}
             >
                 {({values, handleSubmit, errors, touched, setTouched}) => (
-                    <Form onSubmit={handleSubmit}>
+                    <Form className={styles.form} onSubmit={handleSubmit}>
                         <div className={styles.orderSameData}>
                             <div>
                                 Производитель:
@@ -69,28 +66,32 @@ const CreateItemField = () => {
                             {({push, remove}) => (
 
                                 <>
-                                    <div className={styles.formWrapper}>
+                                    <div className={styles.formRowWrapper}>
                                         {
                                             values.order.map((x, index) => {
                                                 return (
-                                                    <div key={index} className={styles.form}>
+                                                    <div key={index} className={styles.formRow}>
                                                         <div className={styles.inputsWrapper}>
-                                                            <div className={styles.inputLabel}>
-                                                                <label>Количество:</label>
-                                                                <div className={styles.inputContainer}>
-                                                                    <Field className={styles.quantityInput} name={`order.${index}.quantity`}/>
-                                                                </div>
-                                                                <span className={styles.errorMsg}><ErrorMessage name={`order.${index}.quantity`}/></span>
-                                                            </div>
                                                             <div className={styles.inputLabel}>
                                                                 <label>Цвет №:</label>
                                                                 <div className={styles.inputContainer}>
                                                                     <Field name={`order.${index}.color_id`}/>
                                                                 </div>
-                                                                <span className={styles.errorMsg}><ErrorMessage name={`order.${index}.color_id`}/></span>
+                                                                <span className={styles.errorMsg}><ErrorMessage
+                                                                    name={`order.${index}.color_id`}/></span>
+                                                            </div>
+                                                            <div className={styles.inputLabel}>
+                                                                <label>Количество:</label>
+                                                                <div className={styles.inputContainer}>
+                                                                    <Field className={styles.quantityInput}
+                                                                           name={`order.${index}.quantity`}/>
+                                                                </div>
+                                                                <span className={styles.errorMsg}><ErrorMessage
+                                                                    name={`order.${index}.quantity`}/></span>
                                                             </div>
                                                         </div>
-                                                        <button type='submit' onClick={() => remove(index)}>Удалить</button>
+                                                        <button type='submit' onClick={() => remove(index)}>Удалить
+                                                        </button>
                                                     </div>
                                                 )
                                             })

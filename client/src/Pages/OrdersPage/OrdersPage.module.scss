@@ -1,0 +1,29 @@
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  row-gap: 20px;
+}
+
+.header {
+  height: 50px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  vertical-align: center;
+  column-gap: 50px;
+}
+
+.title {
+  font-size: 25px;
+}
+
+.body {
+  width: 80%;
+  display: flex;
+}
+
+.headerButtons {
+  display: flex;
+  column-gap: 20px;
+}
