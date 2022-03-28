@@ -27,8 +27,8 @@ const AuthenticateForm = () => {
                 onSubmit={async (values, {setSubmitting}) => {
                     const {email: userEmail, password: userPassword} = values;
                     const authUser = await loginAPI(userEmail, userPassword);
-                    const {user_id, email, name, surname, shop_id, role} = authUser.data.user;
-                    login(user_id, email, name, surname, shop_id, authUser.data.accessToken);
+                    const {user_id, email, name, surname, shop_id, role, isActivated} = authUser.data.user;
+                    login(user_id, email, name, surname, shop_id, role, authUser.data.accessToken, isActivated);
                     navigate(USER_PAGE)
                     setSubmitting(false)
                 }}
@@ -58,7 +58,7 @@ const AuthenticateForm = () => {
                                 </label>
 
                                 <div>
-                                    <button className={styles.submitButton} type={'submit'}>Зарегистрироваться</button>
+                                    <button className={styles.submitButton} type={'submit'}>Войти</button>
                                 </div>
                             </Form>
                         </div>

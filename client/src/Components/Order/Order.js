@@ -44,9 +44,6 @@ const Order = ({orderStatus, orderDetails, brandName, orderId, orderDate}) => {
             </div>
 
             <div>
-                {/*<button onClick={openDescription}>*/}
-                {/*    {isOrderOpen ? 'Скрыть заказ' : 'Посмотреть заказ'}*/}
-                {/*</button>*/}
                 <Button onClick={() => openDescription()} text={isOrderOpen ? 'Скрыть заказ' : 'Посмотреть заказ'} type={'detailsBtn'} />
             </div>
 

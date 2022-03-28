@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {getAllUsers} from "../../http/userAPI";
-import UserInfo from "../../Components/UserInfo/UserInfo";
 import styles from './UsersListPage.module.scss';
 import UsersTable from "../../Components/UsersTable/UsersTable";
 
@@ -14,19 +13,6 @@ const UsersListPage = () => {
         }
         fetchUsers().then(users => setUsers(users.data))
     }, [])
-
-    // const renderUsers = users !== null && users.map(user => {
-    //     const {email, name, surname, shop_id, role, id} = user;
-    //     return (
-    //      <UserInfo
-    //          shop_id={shop_id}
-    //          surname={surname}
-    //          email={email}
-    //          name={name}
-    //          role={role}
-    //      />
-    //     )
-    // })
 
     return (
         <main className={styles.pageContainer}>

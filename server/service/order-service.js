@@ -1,16 +1,13 @@
 const {Orders, ropesBrand, OrderDetails, ProductsForOrder, ProductsForOrderDetails} = require("../models/models");
 
 class OrderService {
-    // нужно будет подумать как вынести логику из двух функций в другое место
     async getOrdersByUser(user_id) {
         const userOrder = await Orders.findAll({where: {user_id}});
         const responseData = [];
         for (let order of userOrder) {
             const {id, brand_id, order_status, order_date} = order;
-            // console.log(order_status);
             const brandData = await ropesBrand.findOne({where: {id: brand_id}});
             const {brandName} = brandData;
-            // console.log(brandName);
             const orderDetails = await OrderDetails.findAll({where: {order_id: id}});
             const orderData = {order_id: id, brandName, order_status, order_date, orderDetails};
             responseData.push(orderData);
@@ -25,7 +22,6 @@ class OrderService {
             const {id, brand_id, order_status, order_date} = order;
             const brandData = await ropesBrand.findOne({where: {id: brand_id}});
             const {brandName} = brandData;
-            // console.log(brandName);
             const orderDetails = await OrderDetails.findAll({where: {order_id: id}});
             const orderData = {order_id: id, brandName, order_status, order_date, orderDetails};
             responseData.push(orderData);
@@ -33,9 +29,12 @@ class OrderService {
         return responseData;
     }
 
-    async createProductsForOrder(color_id, quantity, brandId, shop_id, order_date) {
+    async createProductsForOrder(brandId, shop_id, order_date, productsForOrder) {
         const createOrder = await ProductsForOrder.create({shop_id, brand_id: brandId, order_status: 'active', order_date});
-        await ProductsForOrderDetails.create({products_for_order_id: createOrder.id, color_id, quantity, brandId});
+        for (let order of productsForOrder) {
+            const {color_id, quantity} = order;
+            await ProductsForOrderDetails.create({products_for_order_id: createOrder.id, color_id, quantity});
+        }
     }
 }
 

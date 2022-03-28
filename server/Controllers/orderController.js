@@ -6,16 +6,23 @@ class controller {
     async createOrder(req, res) {
         try {
             const {user_id, shop_id, brand_id, orderDetails} = req.body;
+
             let date = new Date();
             date = date.getDate() + '-' + (date.getMonth()+1) + '-' + date.getFullYear();
+
             const createOrder = await Orders.create({user_id, shop_id, brand_id, order_status: 'active', order_date: date});
             const order_id = createOrder.id;
+
+            console.log('order details');
             console.log(orderDetails);
+
             await ropesService.updateAvailableQuantity(brand_id, shop_id, orderDetails)
+
             for (const order of orderDetails) {
                 const {color_id, quantity} = order;
                 await OrderDetails.create({order_id, color_id, quantity});
             }
+
             return res.json('Заказ успешно оформлен');
         } catch (e) {
             console.log(e);
@@ -25,12 +32,8 @@ class controller {
     async getOrderByUser(req, res) {
         try {
             const user_id = req.params.user_id;
-            // тут нужно будет искать все заказы, подумать нужно ли возвращать имена значений, а не только их id;
-            // const userOrder = await Orders.findAll({where: {user_id}});
            const orders = await orderService.getOrdersByUser(user_id);
            return res.json(orders)
-            // const userOrderDetails = await OrderDetails.findAll({where: {order_id: userOrder.id}})
-            // return res.json(data);
         }
          catch (e) {
             console.log(e);
@@ -73,11 +76,19 @@ class controller {
                 const order_details = await ProductsForOrderDetails.findAll({where: {products_for_order_id: id}});
                 products_for_order.push({brand_name: brand_name.brandName, order_status, order_details, id, order_date});
             }
-            // const order = await ProductsForOrder.findOne({where: {brand_id: brand_id}});
-            // const productsForOrder = await ProductsForOrderDetails.findAll({where: {products_for_order_id: order.id}})
             return res.json(products_for_order);
         } catch (e) {
             console.log(e);
+        }
+    }
+
+    async getFilteredOrders(req, res) {
+        try {
+            const {brand_id, shop_id} = req.params
+            console.log(brand_id);
+            console.log(shop_id);
+        } catch (e) {
+
         }
     }
 }

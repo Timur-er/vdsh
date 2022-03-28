@@ -22,7 +22,7 @@ const RopesInStockPage = () => {
         }
         dispatch(setShopAddressOperation(shop_id));
         fetchedBrands().then(data => setRopesBrand(data))
-    }, [])
+    }, [dispatch, shop_id])
 
     const getRopes = async (brand, id) => {
         if (order.length > 0) {
@@ -36,9 +36,7 @@ const RopesInStockPage = () => {
 
     const selectBrandButtons = ropesBrand.map(brand => {
         const {brandName, id} = brand;
-        // return <button className={styles.selectBrandButton} key={id}
-        //                onClick={() => getRopes(brandName, id)}>{brandName}</button>
-        return <Button onClick={() => getRopes(brandName, id)} text={brandName} />
+        return <Button key={id} onClick={() => getRopes(brandName, id)} text={brandName} />
     })
 
     return (

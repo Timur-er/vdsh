@@ -1,6 +1,4 @@
 import React from 'react';
-import {useSelector} from "react-redux";
-import {getIsAuth} from "../store/User/selectors";
 import NavigationBar from "../Components/NavigationBar/NavigationBar";
 import ContentContainer from "../Components/ContentContainer/ContentContainer";
 import UserRoutes from "./UserRoutes";

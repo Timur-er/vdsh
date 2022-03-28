@@ -2,7 +2,6 @@ import {addRopeBrandToOrder, addRopeToOrder, addShopId} from "./actions";
 
 export const addRopeOrder = (color_id, quantity, ropesOrder) => dispatch => {
     if (ropesOrder) {
-        const order = {}
         dispatch(addRopeToOrder(color_id, quantity))
     }
 }

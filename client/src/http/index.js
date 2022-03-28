@@ -14,7 +14,6 @@ const $authHost = axios.create({
 // нужно допилить этот функционал на бэке
 const authInterceptor = config => {
     const token = JSON.parse(localStorage.getItem('jwtToken'));
-    console.log(token);
     config.headers.Authorization = `Bearer ${token}`;
     return config;
 }

@@ -14,9 +14,7 @@ export function ropesOrderReducer (ropesOrder = initialStore.ropesOrder, action)
         case REMOVE_ROPE_FROM_ORDER:
             return {...ropesOrder, order: [...action.payload]}
         case ADD_ROPE_TO_ORDER:
-            // return action.payload
             return {...ropesOrder, order: [...action.payload]}
-            // return {...ropesOrder, order: [...action.payload]}
         case ADD_ROPE_BRAND_TO_ORDER:
             return {...ropesOrder, brandData: action.payload}
         case ADD_SHOP_ID:

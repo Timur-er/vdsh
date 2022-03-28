@@ -2,7 +2,7 @@
   "port": 5000,
   "db_name": "vdsh",
   "db_user": "etimur",
-  "db_password": "issykkul2003",
+  "db_password": "dbPassword",
   "db_host": "localhost",
   "db_port": 5432
 }

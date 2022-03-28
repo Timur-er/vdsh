@@ -26,7 +26,6 @@ const ProductsForOrderPage = () => {
                 <h1 className={styles.title}>Товары для заказа на склад</h1>
                 <div>
                     <Button onClick={() => getOrders()} text={'Заказы по брендам'} />
-                    {/*<button onClick={getOrders}>get</button>*/}
                 </div>
             </header>
             <main>

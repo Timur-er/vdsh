@@ -4,8 +4,3 @@ export const loginUserOperation = (user_id, email, name, surname, shop_id, role,
     const user = {user_id, email, name, surname, shop_id, role, token, isAuth: true, isActivated}
     dispatch(loginUser(user));
 }
-
-export const checkAuthOperation = () => dispatch => {
-    const token = localStorage.getItem('token');
-
-}

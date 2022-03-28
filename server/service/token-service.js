@@ -22,8 +22,6 @@ class TokenService {
         try {
             const refreshToken = process.env.JWT_REFRESH
             const userData = await jwt.verify(token, refreshToken);
-            // console.log('user data');
-            // console.log(userData);
             return userData;
         } catch (e) {
             return null;

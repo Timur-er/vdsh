@@ -35,3 +35,12 @@ export const getProductsForOrderByBrand = async () => {
         console.log(e);
     }
 }
+
+export const getFilteredOrder = async (brand_id, shop_id) => {
+    try {
+        const orders = await $host.get('api/order/getFilteredOrders/');
+        return orders;
+    } catch (e) {
+        console.log(e);
+    }
+}

@@ -1,7 +1,4 @@
-// const db = require('../dataBase');
 const {ropesInStock, ropesBrand} = require('../models/models');
-const ApiError = require('../ApiError/ApiError');
-const {where} = require("sequelize");
 
 
 class controller {
@@ -10,7 +7,6 @@ class controller {
         const isBrandExist = await ropesBrand.findAll({where: {brandName}});
         if (!isBrandExist.length) {
             const newRopeBrand = await ropesBrand.create({brandName});
-            console.log(newRopeBrand.id);
             return res.json(newRopeBrand.id);
         } else {
             const {dataValues} = isBrandExist[0];
@@ -26,7 +22,6 @@ class controller {
                 await ropesInStock.create({color_id, quantity, brandId})
             }
         } catch (e) {
-            console.log(e);
            return  res.json(e.message);
         }
         res.json('added ropes to bd')
@@ -34,7 +29,6 @@ class controller {
 
     async getAllRopesByBrand(req, res) {
         const brandId = req.params.id;
-        console.log(brandId);
         const ropes = await ropesInStock.findAll({where: {brandId}});
         return res.json(ropes);
     }

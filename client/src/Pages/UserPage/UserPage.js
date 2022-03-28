@@ -13,7 +13,6 @@ const UserPage = () => {
     const [orderData, setOrderData] = useState(null);
 
     const showOrders = orderData !== null && orderData.map(order => {
-        // поменять все переменные которые приходят с сервера на нижние подчеркивание;
         const {brandName, order_date, order_id, order_status, orderDetails} = order;
         return (
             <Order brandName={brandName} orderDate={order_date} orderId={order_id} orderStatus={order_status}
@@ -47,10 +46,6 @@ const UserPage = () => {
                 <div className={styles.headerButtons}>
                     <Button text={'Посмотреть мои заказы'} onClick={() => showMyOrders()} />
                     <Button text={'Посмотреть заказы на мой магазин'} onClick={() => showShopOrders()} />
-                    {/*<button onClick={() => showMyOrders()} className={styles.button}>Посмотреть мои заказы</button>*/}
-                    {/*<button onClick={() => showShopOrders()} className={styles.button}>Посмотреть заказы на мой*/}
-                    {/*    магазин*/}
-                    {/*</button>*/}
                 </div>
             </header>
 

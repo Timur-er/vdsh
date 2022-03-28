@@ -3,11 +3,10 @@ import styles from './UsersTable.module.scss';
 
 const UsersTable = ({users}) => {
 
-
-    const renderRow = users !== null && users.map(user => {
+    const renderRow = users !== null && users.map((user, index) => {
         const {email, name, surname, shop_id, role} = user;
         return (
-            <div className={styles.tableRow}>
+            <div key={index} className={styles.tableRow}>
                 <div className={styles.tableCell}>
                     {name}
                 </div>
@@ -46,7 +45,7 @@ const UsersTable = ({users}) => {
                     Роль
                 </div>
             </div>
-            <div className={styles.tableBody}>
+            <div>
                 {renderRow}
             </div>
         </div>

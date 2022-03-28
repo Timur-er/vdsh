@@ -7,12 +7,8 @@ const ApiError = require('../ApiError/ApiError')
 
 class UserService {
     async registration(email, name, surname, shopAddress, password) {
-        // передаю не id магазина, а его название
-        console.log('shop address ');
-        console.log(shopAddress);
         const candidate = await Users.findOne({where: {email}});
         if (candidate) {
-            console.log('user is already exist');
             throw new Error('already register');
         }
         const hashPassword = await bcrypt.hash(password, 4);

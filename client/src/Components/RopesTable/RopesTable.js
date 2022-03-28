@@ -28,12 +28,12 @@ const RopesTable = ({ropes}) => {
         e.preventDefault();
         const {shop_id, brandData, order} = orderData;
         const {id: brand_id} = brandData;
-        const createdOrder = await createOrder(user_id, shop_id, brand_id, order);
+        await createOrder(user_id, shop_id, brand_id, order);
     }
 
     return (
         <>
-            <div className={styles.tableWrapper}>
+            <div>
                 <div className={styles.table}>
                     {ropesTable}
                 </div>

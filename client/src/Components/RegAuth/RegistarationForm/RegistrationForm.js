@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from 'yup';
 import styles from './RegistrationForm.module.scss';
@@ -6,10 +6,27 @@ import {registrationAPI} from "../../../http/userAPI";
 import {USER_PAGE} from "../../../routes/const";
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../../../Hooks/auth.hook";
+import {getAllShops} from "../../../http/shopAPI";
 
 const RegistrationForm = () => {
     const {login} = useAuth();
     const navigate = useNavigate();
+    const [shops, setShops] = useState(null);
+
+    useEffect( () => {
+        async function fetchShops() {
+            const fetchedShops = await getAllShops();
+            setShops(fetchedShops.data)
+        }
+        fetchShops();
+    }, [])
+
+    const renderShops = shops !== null && shops.map(shop => {
+        const {id, address} = shop;
+        return (
+            <option key={id} value={address}>{address}</option>
+        )
+    })
 
     const validationSchema = Yup.object({
         email: Yup.string().email('Не правильный email').required('Укажите email!'),
@@ -30,7 +47,6 @@ const RegistrationForm = () => {
 
     })
 
-
     return (
         <>
             <Formik
@@ -46,8 +62,8 @@ const RegistrationForm = () => {
                 onSubmit={async (values, {setSubmitting}) => {
                     const {email, name, surname, shopAddress, password} = values;
                     const newUser = await registrationAPI(email, name, surname, shopAddress, password);
-                    const {user_id, email: userEmail, name: userName, surname: userSurname, shop_id, isActivated} = newUser.data.user;
-                    login(user_id, userEmail, userName, userSurname, shop_id, newUser.data.accessToken, isActivated);
+                    const {user_id, email: userEmail, name: userName, surname: userSurname, role, shop_id, isActivated} = newUser.data.user;
+                    login(user_id, userEmail, userName, userSurname, shop_id, role, newUser.data.accessToken, isActivated);
                     navigate(USER_PAGE)
                     setSubmitting(false);
                 }}>
@@ -133,9 +149,7 @@ const RegistrationForm = () => {
                                             as='select'
                                             name='shopAddress'>
                                             <option>{}</option>
-                                            <option>Крещатик</option>
-                                            <option>Нивки</option>
-                                            <option>Толстого</option>
+                                            {renderShops}
                                         </Field>
                                     </label>
                                 </div>

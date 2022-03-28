@@ -13,7 +13,7 @@ const Button = ({text, onClick, type}) => {
             default:
                 return setClassName(`${styles.button}`);
         }
-    }, []);
+    }, [type]);
 
     const buttonHandler = () => {
         onClick()
