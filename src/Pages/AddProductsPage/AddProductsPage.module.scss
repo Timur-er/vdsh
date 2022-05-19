@@ -1,0 +1,32 @@
+@import "../../theme/styles/var";
+
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  row-gap: 20px;
+}
+
+.header {
+  height: 50px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  vertical-align: center;
+}
+
+.title {
+  font-size: 25px;
+}
+
+.body {
+  width: 80%;
+  display: flex;
+  color: white;
+}
+
+@media (min-width: $mobMin) and (max-width: $mobMax) {
+  .body {
+    width: 100%;
+  }
+}

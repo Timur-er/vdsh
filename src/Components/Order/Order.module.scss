@@ -1,0 +1,30 @@
+.orderWrapper {
+  display: flex;
+  width: 60%;
+  background-color: cornflowerblue;
+  color: white;
+  border: 1px solid white;
+  padding: 15px;
+  border-radius: 10px;
+  font-weight: lighter;
+  flex-direction: column;
+  row-gap: 10px;
+  margin-bottom: 30px;
+  height: min-content;
+}
+
+.orderDetails{
+  display: flex;
+  column-gap: 20px;
+}
+
+.order {
+  height: 0;
+  overflow: hidden;
+  transition: 0.5s ease all;
+}
+
+.buttonBlock {
+  display: flex;
+  column-gap: 20px;
+}

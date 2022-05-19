@@ -1,0 +1,1 @@
+export const getAvailableRoutes = store => store.availableRoutes;

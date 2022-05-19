@@ -1,0 +1,70 @@
+@import '../../theme/styles/var';
+
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  row-gap: 20px;
+}
+
+.header {
+  height: 50px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  vertical-align: center;
+  column-gap: 50px;
+}
+
+.title {
+  font-size: 25px;
+}
+
+@media (min-width: $mobMin) and (max-width: $mobMax) {
+  .title {
+    margin-left: 70px;
+    font-size: 20px;
+  }
+}
+
+.headerButtons {
+  display: flex;
+  column-gap: 20px;
+}
+
+.confirmOrderSection {
+  margin-top: 50px;
+}
+
+.confirmOrderBtn {
+  width: max-content;
+  height: 30px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  transition: 0.3s ease all;
+  color: gray;
+}
+
+.confirmOrderBtn:hover {
+  background-color: lightgreen;
+  color: black;
+}
+
+
+
+.selectBrandButton {
+  padding: 10px 15px;
+  background-color: inherit;
+  border: 1px solid gray;
+  border-radius: 5px;
+  transition: 0.3s ease all;
+}
+
+.selectBrandButton:hover{
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+.ropesTableSection {
+  margin-top: 50px;
+}

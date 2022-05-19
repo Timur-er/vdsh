@@ -1,0 +1,27 @@
+.buttonsWrapper {
+  display: flex;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  border: 1px solid cornflowerblue;
+}
+
+.inputWrapper {
+  width: 30px;
+  border: none;
+
+  text-align: center;
+  outline: none;
+}
+
+.buttons {
+  width: 25px;
+  background-color: cornflowerblue;
+  color: white;
+  border: none;
+  &:first-child {
+      border-bottom-left-radius: 5px;
+  }
+  &:last-child {
+      border-bottom-right-radius: 5px;
+  }
+}

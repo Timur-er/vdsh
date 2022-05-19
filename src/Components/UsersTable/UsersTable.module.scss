@@ -1,0 +1,21 @@
+.table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  row-gap: 20px;
+}
+
+.tableHeader {
+  display: flex;
+}
+
+.tableRow {
+  display: flex;
+  border-top: 1px solid #6495EDFF;
+  border-bottom: 1px solid #6495EDFF;
+  padding: 10px 0;
+}
+
+.tableCell {
+  width: 25%;
+}

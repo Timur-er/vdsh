@@ -1,0 +1,99 @@
+@import '../../theme/styles/var';
+
+.authPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 10%;
+}
+
+.tabs {
+  width: 40%;
+  border-radius: 5px;
+  border: 1px solid cornflowerblue;
+  //box-shadow: 0 0 40px 10px cornflowerblue;
+}
+
+.buttonBlock {
+  display: flex;
+  margin-top: 30px;
+}
+
+.button {
+  margin-right: 20px;
+  height: 30px;
+  background-color: white;
+  border: 1px solid gray;
+  transition: 0.3s ease all;
+}
+
+.button:hover {
+  border-radius: 10px;
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+.authWayButtons {
+  display: flex;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  margin: 0;
+  padding: 0;
+}
+
+.authWay {
+  color: black;
+  font-size: 20px;
+  border: none;
+  width: 50%;
+  padding: 20px 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  list-style-type: none;
+  text-align: center;
+  background-color: white;
+}
+
+.activeAuthWay {
+  background-color: cornflowerblue;
+}
+
+.form {
+  padding: 0 20px;
+}
+
+.activeAuthForm {
+  background-color: cornflowerblue;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+@media (min-width: $tabMin) and (max-width: $tabMax) {
+  .tabs {
+    width: 70%;
+  }
+  //.authPage {
+  //  margin-top: 0;
+  //  height: 100%;
+  //}
+}
+
+@media (min-width: $mobMin) and (max-width: $mobMax) {
+  .tabs {
+    width: 100%;
+  }
+  .authPage {
+    margin-top: 0;
+    height: 100vh;
+    width: 100vw;
+    align-items: start;
+    background-color: cornflowerblue;
+  }
+}
+
+@media (max-width: $mobMin) {
+  .tabs {
+    width: 100%;
+  }
+}

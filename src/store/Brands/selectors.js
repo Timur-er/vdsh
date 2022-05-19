@@ -1,0 +1,1 @@
+export const getIsBrandsLoading = state => state.brands.loading;
