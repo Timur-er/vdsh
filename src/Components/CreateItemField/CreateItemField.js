@@ -1,6 +1,6 @@
-import React, {isValidElement, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './CreateItemField.module.scss';
-import {Form, Formik, Field, ErrorMessage, FieldArray} from "formik";
+import {Form, Formik, Field, FieldArray, getIn} from "formik";
 import * as Yup from 'yup';
 import {addRopes, getAllRopesBrand} from "../../http/ropesAPI";
 import Icons from "../Icons/Icons";
@@ -14,6 +14,7 @@ const CreateItemField = () => {
             const brands = await getAllRopesBrand();
             return brands.data;
         }
+
         fetchBrands().then(data => setBrands(data));
     }, [])
 
@@ -29,27 +30,19 @@ const CreateItemField = () => {
         return <option key={brand.id} value={brand.brandName}>{brand.brandName}</option>
     })
 
+
     const validationSchema = Yup.object().shape({
-        brand: Yup
-            .string()
-            .required('Укажите марку'),
-        order: Yup.array(
-            Yup.object({
-                quantity: Yup
-                    .string()
-                    .min(1, "Мінімальне значення 1")
-                    .required("Це обовʼязкове поле!"),
-                color_id: Yup
-                    .string()
-                    .min(4, "Повинно бути 4-ох значне число")
-                    .max(4, "Повинно бути 4-ох значне число")
-                    .required("Це обовʼязкове поле!")
-            }).required()
+        brand: Yup.string().required("this is required field"),
+        order: Yup.array().of(
+            Yup.object().shape({
+                color_id:Yup.string().min(4).max(4).required("Last name is required"),
+                quantity: Yup.string().min(1).required("First name is required")
+            })
         )
     })
 
     const initialValues = {
-        brand: 'DMC',
+        brand: '',
         order: [
             {
                 quantity: '',
@@ -61,7 +54,7 @@ const CreateItemField = () => {
     return (
         <>
             <Formik
-                validateOnChange={true}
+                validateOnChange={false}
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={async (values, {setSubmitting, resetForm}) => {
@@ -70,47 +63,55 @@ const CreateItemField = () => {
                     alert(fetchedRopes.data)
                     resetForm()
                     setSubmitting(false);
-                }}
+                    }}
             >
-                {({values, handleSubmit, errors, isValid, touched }) => (
-                    <Form className={styles.form} onSubmit={handleSubmit}>
+                {({values, touched, errors, handleChange, handleBlur, isValid }) => (
+                    <Form className={styles.form}>
                         <div className={styles.orderSameData}>
                             <div>
                                 Производитель:
-                                <Field as='select' name="brand" id="brand">
+                                <Field className={errors.brand && touched.brand ? `${styles.selectField} ${styles.errorInput}` : styles.selectField} as='select' name="brand">
+                                    <option value="" />
                                     {options}
                                 </Field>
                             </div>
                         </div>
-
                         <div className={styles.tableHeader}>
                             <span>Цвет №</span>
                             <span>Количество</span>
                         </div>
-
-                        <FieldArray name={'order'}>
+                        <FieldArray name='order'>
                             {({push, remove}) => (
-
-                                <>
+                                <div>
                                     <div className={styles.formTable}>
-                                        {
-                                            values.order.map((x, index) => {
+                                        {values.order.map((orderValue, index) => {
+                                                const color_id = `order[${index}].color_id`
+                                                const touchedColor_id = getIn(touched, color_id)
+                                                const errorColor_id = getIn(errors, color_id)
+
+                                                const quantity = `order[${index}].quantity`
+                                                const touchedQuantity = getIn(touched, quantity)
+                                                const errorQuantity = getIn(errors, quantity)
+
                                                 return (
                                                     <div key={index} className={styles.tableRow}>
-
                                                         <div className={styles.inputWrapper}>
                                                             <Field
-                                                                name={`order[${index}].color_id`}
-                                                                className={`${styles.input}`} />
-                                                            <ErrorMessage name={`order[${index}].color_id`} />
+                                                                name={color_id}
+                                                                onChange={handleChange}
+                                                                onBlur={handleBlur}
+                                                                className={Boolean(touchedColor_id && errorColor_id) ? `${styles.input} ${styles.errorInput}` : styles.input}
+                                                            />
                                                         </div>
 
 
                                                         <div className={styles.inputWrapper}>
                                                             <Field
-                                                                className={`${styles.input}`}
-                                                                name={`order[${index}].quantity`}/>
-                                                            <ErrorMessage name={`order[${index}].quantity`} />
+                                                                name={quantity}
+                                                                onChange={handleChange}
+                                                                onBlur={handleBlur}
+                                                                className={Boolean(touchedQuantity && errorQuantity) ? `${styles.input} ${styles.errorInput}` : styles.input}
+                                                            />
                                                         </div>
 
                                                         <span onMouseEnter={() => handleMouseEnter(index)}
@@ -120,7 +121,7 @@ const CreateItemField = () => {
                                                                 type={'binIcon'}
                                                                 width={'20px'}
                                                                 height={'20px'}
-                                                                color={isHoveredIndex === index ? 'red' : 'white'}/>
+                                                                color={isHoveredIndex === index ? 'red' : 'cornflowerblue'}/>
                                                         </span>
 
                                                     </div>
@@ -128,18 +129,16 @@ const CreateItemField = () => {
                                             })
                                         }
                                     </div>
-
                                     <div className={styles.orderButtons}>
-                                        <button type={'submit'} className={styles.orderBtn}>Оформить заказ</button>
-                                        <button onClick={() => {
-                                            push({quantity: '', color_id: ''})
-                                        }} className={styles.orderBtn}>
+                                        <button type={"button"} onClick={() => push({quantity: '', color_id: ''})} className={styles.orderBtn}>
                                             Добавить цвет
                                         </button>
+                                        <button type={'submit'} className={styles.orderBtn}>Оформить заказ</button>
                                     </div>
-                                </>
+                                </div>
                             )}
                         </FieldArray>
+
                     </Form>
                 )}
             </Formik>

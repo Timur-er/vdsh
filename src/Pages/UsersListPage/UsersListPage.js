@@ -17,8 +17,7 @@ const UsersListPage = () => {
 
     return (
         <main className={styles.pageContainer}>
-            <Header title={'Список сотрудников'} />
-            {/*<header className={styles.header}><h1 className={styles.title}>Список сотрудников</h1></header>*/}
+            <Header title={'Список працівників'} />
             <main className={styles.body}>
                 <UsersTable users={users}/>
             </main>

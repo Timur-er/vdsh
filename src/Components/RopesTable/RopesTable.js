@@ -28,7 +28,7 @@ const RopesTable = ({ropes}) => {
     })
 
     const confirmOrder = async (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         const {shop_id, brandData, order} = orderData;
         const {id: brand_id} = brandData;
         await createOrder(user_id, shop_id, brand_id, order);
@@ -39,9 +39,9 @@ const RopesTable = ({ropes}) => {
         <>
             <div>
                 <div className={styles.table}>
-                    {ropesTable}
+                    {ropes.length !== 0 ? ropesTable : "Нажаль товарів ще нема"}
                 </div>
-                <Button onClick={(e) => confirmOrder(e)} text={'Оформить заказ'} />
+                {ropes.length !== 0 ? <Button onClick={(e) => confirmOrder(e)} text={'Оформить заказ'}/> : null}
             </div>
         </>
     );

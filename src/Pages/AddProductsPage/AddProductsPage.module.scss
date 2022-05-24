@@ -21,12 +21,17 @@
 
 .body {
   width: 80%;
-  display: flex;
-  color: white;
+  //display: flex;
+  padding-top: 20px;
+  color: cornflowerblue;
 }
 
 @media (min-width: $mobMin) and (max-width: $mobMax) {
   .body {
     width: 100%;
   }
+}
+
+.div {
+  color: black;
 }

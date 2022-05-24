@@ -4,6 +4,7 @@ import {getAllOrdersForOrder, getProductsForOrderByBrand} from "../../http/order
 import Button from "../../Components/Button/Button";
 import Order from "../../Components/Order/Order";
 import Header from "../../Components/Header/Header";
+import HeaderButtons from "../../Components/HeaderButtons/HeaderButtons";
 
 const ProductsForOrderPage = () => {
     const [orders, setOrders] = useState(null);
@@ -31,17 +32,9 @@ const ProductsForOrderPage = () => {
 
     return (
         <div className={styles.pageContainer}>
-            <Header title={'Товары для заказа на склад'}/>
-
-            {/*<header className={styles.header}>*/}
-            {/*    <h1 className={styles.title}>Товары для заказа на склад</h1>*/}
-            {/*   */}
-            {/*</header>*/}
-
-            <div>
-                <Button onClick={() => getOrders()} text={'Заказы по брендам'} />
-            </div>
-
+            <HeaderButtons>
+                <Button onClick={() => getOrders()} text={'Закази по брендам'} />
+            </HeaderButtons>
             <main>
                 {renderOrder}
             </main>

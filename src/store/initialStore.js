@@ -25,7 +25,11 @@ const initialStore = {
     availableRoutes: [],
     brands: {
         loading: false
-    }
+    },
+    modal: {
+        isOpen: false
+    },
+    orders: []
 }
 
 export default initialStore;

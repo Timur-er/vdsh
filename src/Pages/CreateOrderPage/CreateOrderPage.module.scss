@@ -7,6 +7,14 @@
   row-gap: 20px;
 }
 
+.body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  row-gap: 20px;
+  margin-top: 20px;
+}
+
 .header {
   height: 50px;
   font-size: 24px;
@@ -66,5 +74,5 @@
 }
 
 .ropesTableSection {
-  margin-top: 50px;
+  //margin-top: 50px;
 }

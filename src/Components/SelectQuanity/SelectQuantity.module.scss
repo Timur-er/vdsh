@@ -1,27 +1,31 @@
+@import "../../theme/styles/var";
+
 .buttonsWrapper {
   display: flex;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
-  border: 1px solid cornflowerblue;
+  border-top: 1px solid $borderColor;
+  //border-bottom-left-radius: 6px;
+  //border-bottom-right-radius: 6px;
+  //border: 1px solid $borderColor;
 }
 
 .inputWrapper {
   width: 30px;
   border: none;
-
+  color: $mainBlueColor;
   text-align: center;
   outline: none;
 }
 
 .buttons {
   width: 25px;
-  background-color: cornflowerblue;
-  color: white;
+  background-color: inherit;
+  color: $mainBlueColor;
   border: none;
+  cursor: pointer;
   &:first-child {
-      border-bottom-left-radius: 5px;
+      border-right: 1px solid $borderColor;
   }
   &:last-child {
-      border-bottom-right-radius: 5px;
+      border-left: 1px solid $borderColor;
   }
 }
