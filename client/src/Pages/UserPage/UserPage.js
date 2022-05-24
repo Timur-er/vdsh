@@ -1,16 +1,26 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './UserPage.module.scss';
 import {useSelector} from "react-redux";
 import {getIsActivated, getShopId, getUserId} from "../../store/User/selectors";
 import {getOrderByShop, getOrderByUser} from "../../http/orderAPI";
 import Order from "../../Components/Order/Order";
 import Button from "../../Components/Button/Button";
+import Header from "../../Components/Header/Header";
+import HeaderButtons from "../../Components/HeaderButtons/HeaderButtons";
+import OrderTable from "../../Components/OrderTable/OrderTable";
 
 const UserPage = () => {
     const isActivated = useSelector(getIsActivated);
     const userId = useSelector(getUserId);
     const shopId = useSelector(getShopId)
     const [orderData, setOrderData] = useState(null);
+
+    useEffect(() => {
+        async function fetchData () {
+            return await getOrderByUser(userId);
+        }
+        fetchData().then(data => setOrderData(data.data))
+    }, [])
 
     const showOrders = orderData !== null && orderData.map(order => {
         const {brandName, order_date, order_id, order_status, orderDetails} = order;
@@ -32,26 +42,16 @@ const UserPage = () => {
 
     return (
         <div className={styles.pageContainer}>
-            <header className={styles.header}>
-                <h1 className={styles.title}>
-                    Страница пользователя
-                    {
-                        !isActivated &&
-                        <div>
-                            please check your gmail to activate account
-                        </div>
-                    }
-                </h1>
 
-                <div className={styles.headerButtons}>
-                    <Button text={'Посмотреть мои заказы'} onClick={() => showMyOrders()} />
-                    <Button text={'Посмотреть заказы на мой магазин'} onClick={() => showShopOrders()} />
-                </div>
-            </header>
+            <HeaderButtons>
+                <Button text={'Мої замовлення'} onClick={() => showMyOrders()} />
+                <Button text={'Закази на мій магазин'} onClick={() => showShopOrders()} />
+            </HeaderButtons>
 
-
-            <main>
-                {showOrders}
+            <main className={styles.body}>
+                {/*показывать мои заказы сразу*/}
+                {/*{showOrders}*/}
+                <OrderTable orders={orderData} />
             </main>
         </div>
     );

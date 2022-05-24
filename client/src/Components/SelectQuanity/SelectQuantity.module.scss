@@ -1,17 +1,31 @@
+@import "../../theme/styles/var";
+
 .buttonsWrapper {
   display: flex;
-  border: 1px solid black;
+  border-top: 1px solid $borderColor;
+  //border-bottom-left-radius: 6px;
+  //border-bottom-right-radius: 6px;
+  //border: 1px solid $borderColor;
 }
 
 .inputWrapper {
   width: 30px;
   border: none;
-  border-radius: 0;
+  color: $mainBlueColor;
   text-align: center;
   outline: none;
 }
 
 .buttons {
   width: 25px;
+  background-color: inherit;
+  color: $mainBlueColor;
   border: none;
+  cursor: pointer;
+  &:first-child {
+      border-right: 1px solid $borderColor;
+  }
+  &:last-child {
+      border-left: 1px solid $borderColor;
+  }
 }

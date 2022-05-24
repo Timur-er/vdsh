@@ -1,15 +1,18 @@
 import React from 'react';
 import styles from './RopesTable.module.scss';
 import SelectQuantity from "../SelectQuanity/SelectQuantity";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getOrder} from "../../store/ropesOrder/selectors";
 import {getUserId} from "../../store/User/selectors";
 import {createOrder} from "../../http/orderAPI";
+import {clearOrder} from "../../store/ropesOrder/actions";
+import Button from "../Button/Button";
 
 
 const RopesTable = ({ropes}) => {
     const orderData = useSelector(getOrder);
     const user_id = useSelector(getUserId);
+    const dispatch = useDispatch();
 
     const ropesTable = ropes.map(rope => {
         return (
@@ -25,19 +28,20 @@ const RopesTable = ({ropes}) => {
     })
 
     const confirmOrder = async (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         const {shop_id, brandData, order} = orderData;
         const {id: brand_id} = brandData;
         await createOrder(user_id, shop_id, brand_id, order);
+        dispatch(clearOrder())
     }
 
     return (
         <>
             <div>
                 <div className={styles.table}>
-                    {ropesTable}
+                    {ropes.length !== 0 ? ropesTable : "Нажаль товарів ще нема"}
                 </div>
-                <button onClick={(e) => confirmOrder(e)} className={styles.submitOrder}>Оформить заказ</button>
+                {ropes.length !== 0 ? <Button onClick={(e) => confirmOrder(e)} text={'Оформить заказ'}/> : null}
             </div>
         </>
     );

@@ -7,14 +7,14 @@ const ApiError = require('../ApiError/ApiError')
 
 class UserService {
     async registration(email, name, surname, shopAddress, password) {
-        const candidate = await Users.findOne({where: {email}});
+        const candidate = await Users.findOne({where: {email: email}});
         if (candidate) {
             throw new Error('already register');
         }
         const hashPassword = await bcrypt.hash(password, 4);
         const activationLink = uuid.v4();
 
-        const [shop, created] = await ShopAddresses.findOrCreate({where: {address: shopAddress}});
+        const shop = await ShopAddresses.findOne({where: {address: shopAddress}});
 
         const user = await Users.create({
             email,
@@ -26,11 +26,10 @@ class UserService {
             activationLink,
             password: hashPassword
         })
-
         await mailService.sendActivationLink(email, `${process.env.API_URL}/api/user/activate/${activationLink}`);
-        const tokens = TokenService.generateTokens({id: user.id, email, name, surname, shop_id:shop.id}) //payload: email, id, shopAddress, else...
+        const tokens = await TokenService.generateTokens({id: user.id, email, name, surname, shop_id: shop.id}) //payload: email, id, shopAddress, else...
         await TokenService.saveToken(user.id, tokens.refreshToken);
-        return {...tokens, user: {user_id: user.id, email, name, surname, shop_id: shop.id, role: user.role, isActivated: user.isActivated}}
+        return { ...tokens, user: {user_id: user.id, email, name, surname, shop_id: shop.id, role: user.role, isActivated: user.isActivated}}
     }
 
     async login (email, password) {
@@ -44,7 +43,7 @@ class UserService {
             throw ApiError.badRequest('Не коректный пароль');
         }
         const {id, name, surname, shop_id, role} = user;
-        const tokens = TokenService.generateTokens({id, email, name, surname, shop_id});
+        const tokens = await TokenService.generateTokens({id, email, name, surname, shop_id});
         await TokenService.saveToken(user.id, tokens.refreshToken);
         return {...tokens, user: {user_id: user.id, role, email, name, surname, shop_id}}
     }
@@ -74,7 +73,7 @@ class UserService {
         }
         const user = await Users.findOne({where: {id: userData.id}})
         const {id, email, name, surname, shop_id, role, isActivated} = user;
-        const tokens = TokenService.generateTokens({id, email, name, surname, shop_id});
+        const tokens = await TokenService.generateTokens({id, email, name, surname, shop_id});
         await TokenService.saveToken(user.id, tokens.refreshToken);
         return {...tokens, user: {user_id: user.id, email, name, surname, role, shop_id, isActivated}}
     }

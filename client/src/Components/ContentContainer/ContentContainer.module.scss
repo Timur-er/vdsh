@@ -1,12 +1,26 @@
+@import '../../theme/styles/var';
+
 .contentContainer {
   display: flex;
   margin-left: 300px;
   width: calc(100% - 300px);
-  padding: 20px;
+  padding: 0 20px;
   transition: 0.4s ease all;
 }
 
 .whenMenuBarClosed {
   width: calc(100% - 80px);
   margin-left: 80px;
+}
+
+@media (min-width: $mobMin) and (max-width: $mobMax) {
+  .contentContainer {
+    width: 100%;
+    margin-left: 0;
+    padding: 0;
+  }
+  .whenMenuBarClosed {
+    width: 100%;
+    margin-left: 0;
+  }
 }

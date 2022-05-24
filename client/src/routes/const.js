@@ -6,3 +6,6 @@ export const CREATE_ORDER = '/createOrder';
 export const CHECK_ORDERS_PAGE = '/checkOrdersPage';
 export const PRODUCTS_FOR_ORDER_PAGE = '/productsForOrderPage';
 export const USER_LIST_PAGE = 'userListPage';
+export const ADD_PRODUCTS = 'addProducts';
+export const ADD_SHOP = 'addShop';
+export const ADD_BRAND = 'addBrand';

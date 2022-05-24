@@ -11,6 +11,7 @@ import {useLocation} from "react-router-dom";
 const NavigationBar = () => {
     const isMenuOpen = useSelector(getIsMenuBarOpen);
     const [navigationWrapperStyle, setNavigationWrapperStyle] = useState(`${styles.navigation}`);
+    const [ulStyle, setUlStyle] = useState(`${styles.ul}`)
     const links = useSelector(getAvailableRoutes);
     const location = useLocation();
 
@@ -18,8 +19,10 @@ const NavigationBar = () => {
 
         if (isMenuOpen) {
             setNavigationWrapperStyle(`${styles.navigation}`);
+            setUlStyle(`${styles.ul}`)
         } else {
             setNavigationWrapperStyle(`${styles.navigation} ${styles.navigationClose}`);
+            setUlStyle(`${styles.ul} ${styles.ulClosed}`)
         }
 
     }, [isMenuOpen])
@@ -38,7 +41,7 @@ const NavigationBar = () => {
                 <BurgerBtn/>
             </div>
 
-            <ul className={styles.ul}>
+            <ul className={ulStyle}>
                 {renderLinks}
             </ul>
         </nav>

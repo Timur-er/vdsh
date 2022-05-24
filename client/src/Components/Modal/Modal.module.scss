@@ -1,0 +1,71 @@
+.modalFade {
+  box-sizing: border-box;
+  content: '';
+  background: rgba(0,0,0,0.4);
+  position: fixed;
+  //left: -100%;
+  display: flex;
+  vertical-align: center;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  //z-index: 999;
+  //padding-bottom: 40px;
+  //max-height: 100%;
+  //overflow-y: scroll;
+  //visibility: hidden;
+  //opacity: 0.5;
+  //transition: opacity 0.3s, visibility 0.3s;
+}
+.modal {
+  padding: 20px;
+  border-radius: 5px;
+  background-color: white;
+  max-height: 50%;
+  overflow-y: auto;
+
+  &__close {
+    cursor: pointer;
+    position: absolute;
+
+    right: 5px;
+    top: -10px;
+    font-size: 30px;
+  }
+
+  &__body {
+    padding: 15px 0 15px;
+    font-size: 16px;
+  }
+}
+
+.close {
+  position: absolute;
+  //z-index: 1200;
+  //top: -6px;
+  //right: 5px;
+  cursor: pointer;
+  font-size: 40px;
+  font-weight: 400;
+  color: gray;
+
+  &:hover {
+    color: lightgray;
+  }
+
+  &::before {
+    content: '\00D7';
+  }
+
+  &::after {
+    content: '';
+    top: 5px;
+    right: -3px;
+    bottom: 5px;
+    left: -3px;
+    position: absolute;
+  }
+}

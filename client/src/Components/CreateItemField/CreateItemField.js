@@ -1,32 +1,48 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './CreateItemField.module.scss';
-import {Form, Formik, Field, ErrorMessage, FieldArray} from "formik";
+import {Form, Formik, Field, FieldArray, getIn} from "formik";
 import * as Yup from 'yup';
-import {addRopes} from "../../http/ropesAPI";
+import {addRopes, getAllRopesBrand} from "../../http/ropesAPI";
+import Icons from "../Icons/Icons";
 
 const CreateItemField = () => {
+    const [isHoveredIndex, setIsHoveredIndex] = useState(null);
+    const [brands, setBrands] = useState(null);
+
+    useEffect(() => {
+        async function fetchBrands() {
+            const brands = await getAllRopesBrand();
+            return brands.data;
+        }
+
+        fetchBrands().then(data => setBrands(data));
+    }, [])
+
+    const handleMouseEnter = (index) => {
+        if (typeof index == "number") {
+            setIsHoveredIndex(index)
+        } else {
+            setIsHoveredIndex(false)
+        }
+    }
+
+    const options = brands !== null && brands.map(brand => {
+        return <option key={brand.id} value={brand.brandName}>{brand.brandName}</option>
+    })
+
 
     const validationSchema = Yup.object().shape({
-        brand: Yup
-            .string()
-            .required('Укажите марку'),
-        order: Yup.array(
-            Yup.object({
-                quantity: Yup
-                    .string()
-                    .min(1, 'введите кол-во')
-                    .required('это обязатенльое поле'),
-                color_id: Yup
-                    .string()
-                    .min(4, '4')
-                    .max(4, '4')
-                    .required('Это обязательное поле')
-            }).required()
+        brand: Yup.string().required("this is required field"),
+        order: Yup.array().of(
+            Yup.object().shape({
+                color_id:Yup.string().min(4).max(4).required("Last name is required"),
+                quantity: Yup.string().min(1).required("First name is required")
+            })
         )
     })
 
     const initialValues = {
-        brand: 'DMC',
+        brand: '',
         order: [
             {
                 quantity: '',
@@ -38,7 +54,7 @@ const CreateItemField = () => {
     return (
         <>
             <Formik
-                validateOnChange={true}
+                validateOnChange={false}
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={async (values, {setSubmitting, resetForm}) => {
@@ -47,68 +63,82 @@ const CreateItemField = () => {
                     alert(fetchedRopes.data)
                     resetForm()
                     setSubmitting(false);
-                }}
+                    }}
             >
-                {({values, handleSubmit, errors, touched, setTouched}) => (
-                    <Form className={styles.form} onSubmit={handleSubmit}>
+                {({values, touched, errors, handleChange, handleBlur, isValid }) => (
+                    <Form className={styles.form}>
                         <div className={styles.orderSameData}>
                             <div>
                                 Производитель:
-                                <Field as='select' name="brand" id="brand">
-                                    <option value="dmc">DMC</option>
-                                    <option value="ideal">IDEAL</option>
-                                    <option value="kirovo">KIROVO</option>
+                                <Field className={errors.brand && touched.brand ? `${styles.selectField} ${styles.errorInput}` : styles.selectField} as='select' name="brand">
+                                    <option value="" />
+                                    {options}
                                 </Field>
                             </div>
                         </div>
-
-                        <FieldArray name={'order'}>
+                        <div className={styles.tableHeader}>
+                            <span>Цвет №</span>
+                            <span>Количество</span>
+                        </div>
+                        <FieldArray name='order'>
                             {({push, remove}) => (
+                                <div>
+                                    <div className={styles.formTable}>
+                                        {values.order.map((orderValue, index) => {
+                                                const color_id = `order[${index}].color_id`
+                                                const touchedColor_id = getIn(touched, color_id)
+                                                const errorColor_id = getIn(errors, color_id)
 
-                                <>
-                                    <div className={styles.formRowWrapper}>
-                                        {
-                                            values.order.map((x, index) => {
+                                                const quantity = `order[${index}].quantity`
+                                                const touchedQuantity = getIn(touched, quantity)
+                                                const errorQuantity = getIn(errors, quantity)
+
                                                 return (
-                                                    <div key={index} className={styles.formRow}>
-                                                        <div className={styles.inputsWrapper}>
-                                                            <div className={styles.inputLabel}>
-                                                                <label>Цвет №:</label>
-                                                                <div className={styles.inputContainer}>
-                                                                    <Field name={`order.${index}.color_id`}/>
-                                                                </div>
-                                                                <span className={styles.errorMsg}><ErrorMessage
-                                                                    name={`order.${index}.color_id`}/></span>
-                                                            </div>
-                                                            <div className={styles.inputLabel}>
-                                                                <label>Количество:</label>
-                                                                <div className={styles.inputContainer}>
-                                                                    <Field className={styles.quantityInput}
-                                                                           name={`order.${index}.quantity`}/>
-                                                                </div>
-                                                                <span className={styles.errorMsg}><ErrorMessage
-                                                                    name={`order.${index}.quantity`}/></span>
-                                                            </div>
+                                                    <div key={index} className={styles.tableRow}>
+                                                        <div className={styles.inputWrapper}>
+                                                            <Field
+                                                                name={color_id}
+                                                                onChange={handleChange}
+                                                                onBlur={handleBlur}
+                                                                className={Boolean(touchedColor_id && errorColor_id) ? `${styles.input} ${styles.errorInput}` : styles.input}
+                                                            />
                                                         </div>
-                                                        <button type='submit' onClick={() => remove(index)}>Удалить
-                                                        </button>
+
+
+                                                        <div className={styles.inputWrapper}>
+                                                            <Field
+                                                                name={quantity}
+                                                                onChange={handleChange}
+                                                                onBlur={handleBlur}
+                                                                className={Boolean(touchedQuantity && errorQuantity) ? `${styles.input} ${styles.errorInput}` : styles.input}
+                                                            />
+                                                        </div>
+
+                                                        <span onMouseEnter={() => handleMouseEnter(index)}
+                                                              onMouseLeave={handleMouseEnter}>
+                                                            <Icons
+                                                                click={() => remove(index)}
+                                                                type={'binIcon'}
+                                                                width={'20px'}
+                                                                height={'20px'}
+                                                                color={isHoveredIndex === index ? 'red' : 'cornflowerblue'}/>
+                                                        </span>
+
                                                     </div>
                                                 )
                                             })
                                         }
                                     </div>
-
                                     <div className={styles.orderButtons}>
-                                        <button type={'submit'} className={styles.orderBtn}>Оформить заказ</button>
-                                        <button onClick={() => {
-                                            push({quantity: '', color_id: ''})
-                                        }} className={styles.orderBtn}>
+                                        <button type={"button"} onClick={() => push({quantity: '', color_id: ''})} className={styles.orderBtn}>
                                             Добавить цвет
                                         </button>
+                                        <button type={'submit'} className={styles.orderBtn}>Оформить заказ</button>
                                     </div>
-                                </>
+                                </div>
                             )}
                         </FieldArray>
+
                     </Form>
                 )}
             </Formik>

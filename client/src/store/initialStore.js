@@ -23,6 +23,13 @@ const initialStore = {
         activePage: ''
     },
     availableRoutes: [],
+    brands: {
+        loading: false
+    },
+    modal: {
+        isOpen: false
+    },
+    orders: []
 }
 
 export default initialStore;

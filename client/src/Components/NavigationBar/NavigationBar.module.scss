@@ -1,3 +1,5 @@
+@import '../../theme/styles/var';
+
 .navigation {
   position: fixed;
   width: 300px;
@@ -19,6 +21,27 @@
   top: 0;
   left: 0;
   margin-left: -30px;
+}
+
+@media (min-width: $mobMin) and (max-width: $mobMax) {
+  .navigation {
+    position: absolute;
+  }
+  //.ul {
+  //  display: none;
+  //}
+  .navigationClose {
+    background-color: inherit;
+    width: min-content;
+  }
+  .burgerWrapper {
+    background-color: cornflowerblue;
+    padding: 20px;
+  }
+
+  .ulClosed {
+    display: none;
+  }
 }
 
 

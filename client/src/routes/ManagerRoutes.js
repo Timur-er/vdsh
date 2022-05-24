@@ -11,7 +11,17 @@ const ManagerRoutes = () => {
     const isRoleAvailable = role === 'MANAGER' || role === 'ADMIN';
 
     const routes = managerRoutes.map(route => {
-        return {path: route.path, element: route.element}
+        // console.log(route);
+        console.log(route);
+        if (route.children) {
+            const nestedComponents = route.children.map(childProperties => {
+                console.log(childProperties);
+                return {path: childProperties.path, element: childProperties.element};
+            })
+            return {path: route.path, element: route.element, children: [...nestedComponents]};
+        } else {
+            return {path: route.path, element: route.element}
+        }
     })
 
     useEffect(() => {
@@ -24,6 +34,7 @@ const ManagerRoutes = () => {
 
     return (
         <>
+            {console.log(routes)}
             {isRoleAvailable && renderRoutes}
         </>
     );

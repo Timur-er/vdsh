@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Formik, Form, Field, ErrorMessage} from "formik";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from 'yup';
 import styles from './RegistrationForm.module.scss';
 import {registrationAPI} from "../../../http/userAPI";
@@ -15,10 +15,9 @@ const RegistrationForm = () => {
 
     useEffect( () => {
         async function fetchShops() {
-            const fetchedShops = await getAllShops();
-            setShops(fetchedShops.data)
+            return await getAllShops();
         }
-        fetchShops();
+        fetchShops().then(data => setShops(data.data));
     }, [])
 
     const renderShops = shops !== null && shops.map(shop => {
@@ -44,7 +43,9 @@ const RegistrationForm = () => {
         confirmPassword: Yup.string()
             .required('Повторите пароль')
             .oneOf([Yup.ref('password'), null], 'Пароли не совпадают'),
-
+        shopAddress: Yup.string()
+            .min(1, 'Виберіть магазин')
+            .required('Виберіть магазин')
     })
 
     return (
@@ -61,6 +62,8 @@ const RegistrationForm = () => {
                 validationSchema={validationSchema}
                 onSubmit={async (values, {setSubmitting}) => {
                     const {email, name, surname, shopAddress, password} = values;
+                    console.log(values);
+                    console.log(shopAddress);
                     const newUser = await registrationAPI(email, name, surname, shopAddress, password);
                     const {user_id, email: userEmail, name: userName, surname: userSurname, role, shop_id, isActivated} = newUser.data.user;
                     login(user_id, userEmail, userName, userSurname, shop_id, role, newUser.data.accessToken, isActivated);
@@ -148,7 +151,7 @@ const RegistrationForm = () => {
                                         <Field
                                             as='select'
                                             name='shopAddress'>
-                                            <option>{}</option>
+                                            <option value={''}></option>
                                             {renderShops}
                                         </Field>
                                     </label>

@@ -2,8 +2,9 @@ import React, {useRef, useState} from 'react';
 import styles from './Order.module.scss';
 import OrderTable from "../OrderTable/OrderTable";
 import Button from "../Button/Button";
+import {getExcel} from "../../http/orderAPI";
 
-const Order = ({orderStatus, orderDetails, brandName, orderId, orderDate}) => {
+const Order = ({orderStatus, orderDetails, brandName, orderId, orderDate, shop_address}) => {
     const [isOrderOpen, serIsOrderOpen] = useState(false);
     const [height, setHeight] = useState('0px');
     const orderData = useRef();
@@ -14,6 +15,11 @@ const Order = ({orderStatus, orderDetails, brandName, orderId, orderDate}) => {
         setHeight(isOrderOpen ? '0px' : `${orderData.current.scrollHeight}px`)
     }
 
+    const getTable = async () => {
+
+        console.log(orderDetails);
+        const data = await getExcel(orderId);
+    }
 
     return (
         <div className={styles.orderWrapper}>
@@ -26,6 +32,11 @@ const Order = ({orderStatus, orderDetails, brandName, orderId, orderDate}) => {
                 <div>
                     <span>Бренд: </span>
                     <span>{brandName}</span>
+                </div>
+
+                <div>
+                    <span>Магазин: </span>
+                    <span>{shop_address}</span>
                 </div>
 
                 <div>
@@ -43,8 +54,9 @@ const Order = ({orderStatus, orderDetails, brandName, orderId, orderDate}) => {
                 <OrderTable orderDetails={orderDetails}/>
             </div>
 
-            <div>
+            <div className={styles.buttonBlock}>
                 <Button onClick={() => openDescription()} text={isOrderOpen ? 'Скрыть заказ' : 'Посмотреть заказ'} type={'detailsBtn'} />
+                <Button onClick={() => getTable()} text={'Скачать таблицу'} type={'detailsBtn'}/>
             </div>
 
         </div>

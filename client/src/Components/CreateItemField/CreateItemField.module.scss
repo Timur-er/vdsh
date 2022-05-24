@@ -1,59 +1,74 @@
+@import "../../theme/styles/var";
+
 .form {
-  background-color: cornflowerblue;
+  background-color: inherit;
   padding: 20px;
-  border-radius: 5px;
-  width: 100%;
+  border-radius: 10px;
+  width: min-content;
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.1);
 }
 
 .formRowWrapper {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid white;
-  border-bottom: 1px solid white;
   padding: 15px 0 5px 0;
 }
 
-.formRow {
+.selectField {
+  width: max-content;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  margin-left: 10px;
+  color: cornflowerblue;
+}
+
+.tableRow {
   display: flex;
-  justify-content: space-between;
+  column-gap: 75px;
   padding: 0 0 15px 0;
+  vertical-align: center;
+  align-items: center;
 }
 
 .inputsWrapper {
   display: flex;
-  column-gap: 50px;
-  width: 60%;
+  column-gap: 75px;
 }
 
-.quantityInput {
-  width: 50px;
+.input {
+  width: 60px;
   text-align: center;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+}
+
+.errorInput {
+  box-shadow: 0 0 5px 0 red;
 }
 
 .orderButtons {
   padding: 15px 0;
   display: flex;
-  justify-content: flex-end;
   column-gap: 10px;
 }
 
 .orderBtn {
   background-color: inherit;
-  border: 1px solid white;
+  border: 1px solid lightgray;
   border-radius: 5px;
   padding: 5px;
   cursor: pointer;
   transition: 0.3s ease all;
+  color: cornflowerblue;
 }
 
 .orderBtn:hover {
-  background-color: lightgreen;
+  border-color: cornflowerblue;
 }
 
-.inputLabel {
+.inputWrapper {
   display: flex;
-  align-items: center;
-  vertical-align: center;
+  flex-direction: column;
 }
 
 .inputContainer {
@@ -76,3 +91,29 @@
   padding-bottom: 10px;
 }
 
+.table {
+
+}
+
+.tableHeader {
+  display: flex;
+  column-gap: 75px;
+  margin-top: 20px;
+}
+
+.tableCell {
+
+}
+
+.formTable {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 0 5px 0;
+}
+
+@media (min-width: $mobMin) and (max-width: $mobMax) {
+  .form {
+
+  }
+
+}

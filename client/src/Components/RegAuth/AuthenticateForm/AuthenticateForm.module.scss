@@ -1,3 +1,5 @@
+@import '../../../theme/styles/var';
+
 .formWrapper {
   display: flex;
   width: 100%;
@@ -34,4 +36,11 @@
 
 .submitButton:hover {
   cursor: pointer;
+}
+
+@media (min-width: $mobMin) and (max-width: $mobMax) {
+  .formWrapper {
+    width: 95%;
+    margin-top: 20px;
+  }
 }

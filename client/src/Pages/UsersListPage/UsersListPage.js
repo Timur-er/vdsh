@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {getAllUsers} from "../../http/userAPI";
 import styles from './UsersListPage.module.scss';
 import UsersTable from "../../Components/UsersTable/UsersTable";
+import Header from "../../Components/Header/Header";
 
 const UsersListPage = () => {
     const [users, setUsers] = useState(null);
@@ -16,7 +17,7 @@ const UsersListPage = () => {
 
     return (
         <main className={styles.pageContainer}>
-            <header className={styles.header}><h1 className={styles.title}>Список сотрудников</h1></header>
+            <Header title={'Список працівників'} />
             <main className={styles.body}>
                 <UsersTable users={users}/>
             </main>

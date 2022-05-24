@@ -1,9 +1,10 @@
+@import '../../theme/styles/var';
 .button {
-  background-color: cornflowerblue;
+  background-color: inherit;
   border-radius: 5px;
   padding: 10px 20px;
-  border: 1px solid white;
-  color: white;
+  border: 1px solid $borderColor;
+  color: $mainBlueColor;
   font-size: 18px;
   font-weight: lighter;
   transition: 0.3s ease all;
@@ -12,21 +13,19 @@
 .button:hover {
   cursor: pointer;
   background-color: inherit;
-  border: 1px solid cornflowerblue;
-  color: cornflowerblue;
+  border: 1px solid $mainBlueColor;
 }
 
 .detailsBtn {
-  color: white;
+  color: $mainBlueColor;
   font-weight: lighter;
   padding: 5px 10px;
   background-color: inherit;
-  border: 1px solid white;
+  border: 1px solid $borderColor;
   border-radius: 5px;
   transition: 0.3s ease all;
 }
 
 .detailsBtn:hover {
-  background-color: white;
-  color: cornflowerblue;
+  border: 1px solid $mainBlueColor;
 }

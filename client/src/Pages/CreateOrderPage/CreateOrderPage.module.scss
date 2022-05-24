@@ -1,8 +1,18 @@
+@import '../../theme/styles/var';
+
 .pageContainer {
   display: flex;
   flex-direction: column;
   width: 100%;
   row-gap: 20px;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  row-gap: 20px;
+  margin-top: 20px;
 }
 
 .header {
@@ -16,6 +26,13 @@
 
 .title {
   font-size: 25px;
+}
+
+@media (min-width: $mobMin) and (max-width: $mobMax) {
+  .title {
+    margin-left: 70px;
+    font-size: 20px;
+  }
 }
 
 .headerButtons {
@@ -57,5 +74,5 @@
 }
 
 .ropesTableSection {
-  margin-top: 50px;
+  //margin-top: 50px;
 }

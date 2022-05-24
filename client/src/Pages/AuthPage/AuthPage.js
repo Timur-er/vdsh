@@ -23,11 +23,11 @@ const AuthPage = () => {
                             className={tabIndex === 1 ? `${styles.authWay} ${styles.activeAuthWay}` : `${styles.authWay}`}>Войти</Tab>
                     </TabList>
 
-
+            
                     <TabPanel className={tabIndex === 0 ? `${styles.form} ${styles.activeAuthForm}` : `${styles.form}`}>
                         <RegistrationForm/>
                     </TabPanel>
-
+            
                     <TabPanel className={tabIndex === 1 ? `${styles.form} ${styles.activeAuthForm}` : `${styles.form}`}>
                         <AuthenticateForm/>
                     </TabPanel>

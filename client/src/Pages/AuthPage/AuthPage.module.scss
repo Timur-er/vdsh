@@ -1,3 +1,5 @@
+@import '../../theme/styles/var';
+
 .authPage {
   display: flex;
   justify-content: center;
@@ -9,13 +11,8 @@
 .tabs {
   width: 40%;
   border-radius: 5px;
-  box-shadow: 0 0 40px 10px cornflowerblue;
-}
-
-.formWrapper {
-  display: flex;
-  width: 50%;
-  flex-direction: column;
+  border: 1px solid cornflowerblue;
+  //box-shadow: 0 0 40px 10px cornflowerblue;
 }
 
 .buttonBlock {
@@ -48,7 +45,6 @@
 .authWay {
   color: black;
   font-size: 20px;
-  background-color: inherit;
   border: none;
   width: 50%;
   padding: 20px 0;
@@ -56,6 +52,7 @@
   border-top-right-radius: 5px;
   list-style-type: none;
   text-align: center;
+  background-color: white;
 }
 
 .activeAuthWay {
@@ -72,3 +69,31 @@
   border-bottom-right-radius: 5px;
 }
 
+@media (min-width: $tabMin) and (max-width: $tabMax) {
+  .tabs {
+    width: 70%;
+  }
+  //.authPage {
+  //  margin-top: 0;
+  //  height: 100%;
+  //}
+}
+
+@media (min-width: $mobMin) and (max-width: $mobMax) {
+  .tabs {
+    width: 100%;
+  }
+  .authPage {
+    margin-top: 0;
+    height: 100vh;
+    width: 100vw;
+    align-items: start;
+    background-color: cornflowerblue;
+  }
+}
+
+@media (max-width: $mobMin) {
+  .tabs {
+    width: 100%;
+  }
+}

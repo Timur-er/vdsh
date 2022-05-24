@@ -1,5 +1,7 @@
 import {
-    ADD_ROPES_IN_STOCK_PAGE,
+    ADD_BRAND,
+    ADD_PRODUCTS,
+    ADD_ROPES_IN_STOCK_PAGE, ADD_SHOP,
     CHECK_ORDERS_PAGE,
     CREATE_ORDER, PRODUCTS_FOR_ORDER_PAGE,
     USER_LIST_PAGE,
@@ -8,53 +10,72 @@ import {
 import AddProductsPage from "../Pages/AddProductsPage/AddProductsPage";
 import UserPage from "../Pages/UserPage/UserPage";
 import UsersListPage from "../Pages/UsersListPage/UsersListPage";
-import OrdersPage from "../Pages/OrdersPage/OrdersPage";
+import ToDeliverPage from "../Pages/ToDeliverPage/ToDeliverPage";
 import ProductsForOrderPage from "../Pages/ProductsForOrderPage/ProductsForOrderPage";
 import React from "react";
-import RopesInStockPage from "../Pages/RopesInStockPage/RopesInStockPage";
+import CreateOrderPage from "../Pages/CreateOrderPage/CreateOrderPage";
+import AddBrand from "../Components/AddBrand/AddBrand";
+import CreateItemField from "../Components/CreateItemField/CreateItemField";
 
 export const userRoutes = [
     {
         icon: 'userIcon',
-        name: 'Страница пользователя',
+        name: 'Головна сторінка',
         path: USER_PAGE,
-        element: <UserPage/>
+        element: <UserPage/>,
     },
 
     {
         icon: 'addOrderIcon',
-        name: 'Сделать заказ',
+        name: 'Зробити замовлення',
         path: CREATE_ORDER,
-        element: <RopesInStockPage />
+        element: <CreateOrderPage />,
     }
 ]
 
 export const managerRoutes = [
     {
         icon: 'uploadDataIcon',
-        name: 'Заполнить базу',
+        name: 'Заповнити базу даних',
         path: ADD_ROPES_IN_STOCK_PAGE,
-        element: <AddProductsPage/>
+        element: <AddProductsPage/>,
+        children: [
+            {
+                name: 'Додати товар',
+                path: ADD_PRODUCTS,
+                element: <CreateItemField />,
+            },
+            {
+                name: 'Додати магазин',
+                path: ADD_SHOP,
+                element: <AddBrand />,
+            },
+            {
+                name: 'Додати бренд',
+                path: ADD_BRAND,
+                element: <AddBrand />,
+            }
+        ]
     },
     {
         icon: 'forSendingIcon',
-        name: 'Заказы',
+        name: 'Для відправки',
         path: CHECK_ORDERS_PAGE,
-        element: <OrdersPage />
+        element: <ToDeliverPage />,
     },
     {
         icon: 'toOrderIcon',
-        name: 'Товары для заказа',
+        name: 'Для замовлення',
         path: PRODUCTS_FOR_ORDER_PAGE,
-        element: <ProductsForOrderPage />
+        element: <ProductsForOrderPage />,
     }
 ]
 
 export const adminRoutes = [
     {
         icon: 'usersIcon',
-        name: 'Пользователи',
+        name: 'Користувачі',
         path: USER_LIST_PAGE,
-        element: <UsersListPage />
+        element: <UsersListPage />,
     }
 ]

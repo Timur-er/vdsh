@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const $host = axios.create({
     withCredentials: true,
-    baseURL: process.env.REACT_APP_API_URL
+    baseURL: process.env.REACT_APP_API_URL,
 })
 
 const $authHost = axios.create({
@@ -10,6 +10,12 @@ const $authHost = axios.create({
     baseURL: process.env.REACT_APP_API_URL
 })
 
+const $downloadFile = axios.create({
+    withCredentials: true,
+    baseURL: process.env.REACT_APP_API_URL,
+    // headers: am I need header here?
+    responseType: "blob"
+})
 
 // нужно допилить этот функционал на бэке
 const authInterceptor = config => {
@@ -29,5 +35,6 @@ $authHost.interceptors.response.use((config) => {
 
 export {
     $host,
-    $authHost
+    $authHost,
+    $downloadFile
 }

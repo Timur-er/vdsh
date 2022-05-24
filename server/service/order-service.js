@@ -1,4 +1,4 @@
-const {Orders, ropesBrand, OrderDetails, ProductsForOrder, ProductsForOrderDetails} = require("../models/models");
+const {Orders, ropesBrand, OrderDetails, ProductsForOrder, ProductsForOrderDetails, ShopAddresses} = require("../models/models");
 
 class OrderService {
     async getOrdersByUser(user_id) {
@@ -35,6 +35,24 @@ class OrderService {
             const {color_id, quantity} = order;
             await ProductsForOrderDetails.create({products_for_order_id: createOrder.id, color_id, quantity});
         }
+    }
+
+    async getOrderById(order_id) {
+        const orderData = await Orders.findAll({where: {id: order_id}});
+        const orderDetails = await OrderDetails.findAll({where: {order_id: order_id}});
+        const {brand_id, shop_id} = orderData[0];
+        const brandData = await ropesBrand.findOne({where: {id: brand_id}});
+        const brand_name = brandData.brandName;
+        const shopData = await ShopAddresses.findOne({where: {id: shop_id}});
+        console.log(shopData);
+        const shop_name = shopData.address;
+        const order = orderDetails.map(order => {
+            const {color_id, quantity} = order;
+            return {color_id, quantity};
+        })
+
+        const returnOrderData = {order_id: order_id, brand_name: brand_name, shop_name: shop_name, order: order};
+        return returnOrderData;
     }
 }
 
