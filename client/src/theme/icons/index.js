@@ -5,4 +5,5 @@ export {forSendingIcon} from './forSendingIcon';
 export {toOrderIcon} from './toOrderIcon';
 export {usersIcon} from './usersIcon';
 export {binIcon} from './binIcon';
-export {pencilIcon} from './pencilIcon'
+export {pencilIcon} from './pencilIcon';
+export {plusIcon} from './plusIcon';

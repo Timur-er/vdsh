@@ -6,6 +6,7 @@ import {routesReducer} from "./Routes/routesReducer";
 import {brandsReducer} from "./Brands/brandsReducer";
 import {modalReducer} from "./modal/modalReducer";
 import {ordersReducer} from "./Orders/ordersReducer";
+import {popupReducer} from "./Popup/popupReducer";
 
 const rootReducer = combineReducers({
     ropesOrder: ropesOrderReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     availableRoutes: routesReducer,
     brands: brandsReducer,
     modal: modalReducer,
-    orders: ordersReducer
+    orders: ordersReducer,
+    popup: popupReducer
 });
 
 export default rootReducer;

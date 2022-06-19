@@ -5,13 +5,13 @@ const ropesInStock = sequelize.define('ropesInStock', {
         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
         color_id: {type: DataTypes.STRING},
         quantity: {type: DataTypes.INTEGER},
-        brandId: {type: DataTypes.INTEGER}
+        brand_id: {type: DataTypes.INTEGER}
     },
     {timestamps: false});
 
 const ropesBrand = sequelize.define('ropesBrand', {
         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-        brandName: {type: DataTypes.STRING, unique: true}
+        brand_name: {type: DataTypes.STRING, unique: true}
     },
     {timestamps: false});
 
@@ -23,14 +23,14 @@ const Users = sequelize.define('users', {
         shop_id: {type: DataTypes.INTEGER},
         password: {type: DataTypes.STRING},
         role: {type: DataTypes.STRING, allowNull: false, default: 'USER'},
-        isActivated: {type: DataTypes.BOOLEAN, allowNull: false, default: false},
-        activationLink: {type: DataTypes.STRING}
+        is_activated: {type: DataTypes.BOOLEAN, allowNull: false, default: false},
+        activation_link: {type: DataTypes.STRING}
     },
     {timestamps: false})
 
 const UserTokens = sequelize.define('userTokens', {
     user_id: {type: DataTypes.INTEGER},
-    refreshToken: {type: DataTypes.STRING, required: true}
+    refresh_token: {type: DataTypes.STRING, required: true}
 })
 
 const ShopAddresses = sequelize.define('shopAddresses', {
@@ -67,7 +67,7 @@ const ProductsForOrder = sequelize.define('productsForOrder', {
 })
 
 const ProductsForOrderDetails = sequelize.define('productsForOrderDetails', {
-    products_for_order_id: {type: DataTypes.INTEGER},
+    order_id: {type: DataTypes.INTEGER},
     color_id: {type: DataTypes.STRING},
     quantity: {type: DataTypes.INTEGER}
 })

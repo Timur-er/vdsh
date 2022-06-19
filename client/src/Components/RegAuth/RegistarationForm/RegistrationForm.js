@@ -62,11 +62,9 @@ const RegistrationForm = () => {
                 validationSchema={validationSchema}
                 onSubmit={async (values, {setSubmitting}) => {
                     const {email, name, surname, shopAddress, password} = values;
-                    console.log(values);
-                    console.log(shopAddress);
                     const newUser = await registrationAPI(email, name, surname, shopAddress, password);
-                    const {user_id, email: userEmail, name: userName, surname: userSurname, role, shop_id, isActivated} = newUser.data.user;
-                    login(user_id, userEmail, userName, userSurname, shop_id, role, newUser.data.accessToken, isActivated);
+                    const {user_id, email: userEmail, name: userName, surname: userSurname, role, shop_id, is_activated} = newUser.data.user;
+                    login(user_id, userEmail, userName, userSurname, shop_id, role, newUser.data.access_token, is_activated);
                     navigate(USER_PAGE)
                     setSubmitting(false);
                 }}>

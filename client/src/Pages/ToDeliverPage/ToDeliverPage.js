@@ -1,33 +1,29 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styles from './ToDeliverPage.module.scss';
-import {getAllRopesBrand} from "../../http/ropesAPI";
+import {getAllBrands} from "../../http/productsAPI";
 import {getAllShops} from "../../http/shopAPI";
-import Header from "../../Components/Header/Header";
-import {getAllOrders} from "../../http/orderAPI";
-import Order from "../../Components/Order/Order";
+import {getAllOrders, getFilteredOrder} from "../../http/orderAPI";
 import HeaderButtons from "../../Components/HeaderButtons/HeaderButtons";
 import SelectInput from "../../Components/SelectInput/SelectInput";
 import OrderTable from "../../Components/OrderTable/OrderTable";
-import Modal from "../../Components/Modal/Modal";
-import {useDispatch} from "react-redux";
-import {setOrders} from "../../store/Orders/actions";
 
 const ToDeliverPage = () => {
     const [shopAddresses, setShopAddresses] = useState(null);
     const [brands, setBrands] = useState(null);
-    // const [orders, setOrders] = useState(null);
-    const dispatch = useDispatch()
+    const [orders, setOrders] = useState(null);
+    const shopRef = useRef();
+    const brandRef = useRef();
 
-    useEffect( () => {
-        async function fetchBrands () {
-            const brands = await getAllRopesBrand();
+    useEffect(() => {
+        async function fetchBrands() {
+            const brands = await getAllBrands();
             const shops = await getAllShops();
             const orders = await getAllOrders();
-            dispatch(setOrders(orders.data))
             setShopAddresses(shops.data);
             setBrands(brands.data);
-            // setOrders(orders.data);
+            setOrders(orders.data);
         }
+
         fetchBrands();
     }, [])
 
@@ -35,45 +31,45 @@ const ToDeliverPage = () => {
     const ordersByShop = shopAddresses !== null && shopAddresses.map(shop => {
         const {id, address} = shop;
         return (
-            <option key={id} value={address}>{address}</option>
+            <option key={id} value={id}>{address}</option>
         )
     })
 
-    const orderByBrand = brands !== null && brands.map(brand => {
-        const {id, brandName} = brand;
+    const ordersByBrand = brands !== null && brands.map(brand => {
+        const {id, brand_name} = brand;
         return (
-            <option key={id} value={brandName}>{brandName}</option>
+            <option key={id} value={id}>{brand_name}</option>
         )
     })
 
-    // const showOrders = orders !== null && orders.map(order => {
-    //     const {brandName, order_date, order_id, order_status, orderDetails, shop_address} = order;
-    //     return (
-    //         <Order brandName={brandName} orderDate={order_date} orderId={order_id} orderStatus={order_status} shop_address={shop_address}
-    //                orderDetails={orderDetails}/>
-    //     )
-    // })
+    const handleFilter = async () => {
+        const brand_id = brandRef.current.value;
+        const shop_id = shopRef.current.value;
+        const filteredOrders = await getFilteredOrder(brand_id, shop_id)
+        setOrders(filteredOrders.data)
+    }
+
     return (
         <div className={styles.pageContainer}>
             <HeaderButtons>
                 <div>
                     <span>Виберіть магазин: </span>
-                    <SelectInput>
+                    <select className={styles.selectField} onChange={() => handleFilter()} ref={shopRef}>
+                        <option value='all'>Всі</option>
                         {ordersByShop}
-                    </SelectInput>
+                    </select>
                 </div>
                 <div>
                     <span>Виберіть бренд</span>
-                    <SelectInput>
-                        {orderByBrand}
-                    </SelectInput>
+                    <select className={styles.selectField} onChange={() => handleFilter()} ref={brandRef}>
+                        <option value='all'>Всі</option>
+                        {ordersByBrand}
+                    </select>
                 </div>
             </HeaderButtons>
-            {/*брать данные в таблицу и в модалку со стора*/}
 
             <main className={styles.body}>
-                {/*{showOrders}*/}
-                {/*<OrderTable orders={orders} forManager={true}/>*/}
+                <OrderTable orders={orders} forManager={true} forOrder={false}/>
             </main>
         </div>
 

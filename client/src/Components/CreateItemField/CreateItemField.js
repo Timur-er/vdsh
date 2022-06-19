@@ -2,21 +2,30 @@ import React, {useEffect, useState} from 'react';
 import styles from './CreateItemField.module.scss';
 import {Form, Formik, Field, FieldArray, getIn} from "formik";
 import * as Yup from 'yup';
-import {addRopes, getAllRopesBrand} from "../../http/ropesAPI";
+import {addProductBrand, addProducts, getAllBrands} from "../../http/productsAPI";
 import Icons from "../Icons/Icons";
+import {openModal} from "../../store/modal/actions";
+import {useDispatch, useSelector} from "react-redux";
+import {getIsModalOpen} from "../../store/modal/selectors";
+import Modal from "../Modal/Modal";
+import Button from "../Button/Button";
+import {openPopup} from "../../store/Popup/actions";
 
 const CreateItemField = () => {
     const [isHoveredIndex, setIsHoveredIndex] = useState(null);
     const [brands, setBrands] = useState(null);
+    const isModalOpen = useSelector(getIsModalOpen);
+    const [modalInputValue, setModalInputValue] = useState('');
+    const dispatch = useDispatch();
 
     useEffect(() => {
         async function fetchBrands() {
-            const brands = await getAllRopesBrand();
+            const brands = await getAllBrands();
             return brands.data;
         }
 
         fetchBrands().then(data => setBrands(data));
-    }, [])
+    }, [isModalOpen])
 
     const handleMouseEnter = (index) => {
         if (typeof index == "number") {
@@ -27,9 +36,22 @@ const CreateItemField = () => {
     }
 
     const options = brands !== null && brands.map(brand => {
-        return <option key={brand.id} value={brand.brandName}>{brand.brandName}</option>
+        return <option key={brand.id} value={brand.brand_name}>{brand.brand_name}</option>
     })
 
+    const handleModalInput = (e) => {
+        e.preventDefault();
+        const value = e.target.value;
+        setModalInputValue(value)
+    }
+
+    const handleModalSubmit = async () => {
+        const brand = await addProductBrand(modalInputValue);
+        console.log(brand);
+        dispatch(openPopup('Успішно додано', false))
+        setModalInputValue('')
+        dispatch(openModal(false))
+    }
 
     const validationSchema = Yup.object().shape({
         brand: Yup.string().required("this is required field"),
@@ -59,23 +81,22 @@ const CreateItemField = () => {
                 validationSchema={validationSchema}
                 onSubmit={async (values, {setSubmitting, resetForm}) => {
                     const {brand: brandName, order} = values;
-                    const fetchedRopes = await addRopes(order, brandName);
-                    alert(fetchedRopes.data)
+                    const fetchedRopes = await addProducts(order, brandName);
+                    dispatch(openPopup(fetchedRopes.data, false));
                     resetForm()
                     setSubmitting(false);
                     }}
             >
                 {({values, touched, errors, handleChange, handleBlur, isValid }) => (
                     <Form className={styles.form}>
-                        <div className={styles.orderSameData}>
-                            <div>
+                            <div className={styles.selectWrapper}>
                                 Производитель:
                                 <Field className={errors.brand && touched.brand ? `${styles.selectField} ${styles.errorInput}` : styles.selectField} as='select' name="brand">
                                     <option value="" />
                                     {options}
                                 </Field>
+                                <Icons type='plusIcon' color='cornflowerblue' width='20px' height='20px' click={() => dispatch(openModal(true))}/>
                             </div>
-                        </div>
                         <div className={styles.tableHeader}>
                             <span>Цвет №</span>
                             <span>Количество</span>
@@ -142,6 +163,12 @@ const CreateItemField = () => {
                     </Form>
                 )}
             </Formik>
+            {isModalOpen && <Modal>
+                <div className={styles.modal__contentWrapper}>
+                    <input className={styles.modal__input} onChange={(e) => handleModalInput(e)} type="text" placeholder='Виробник'/>
+                    <Button text='Додати' onClick={() => handleModalSubmit()}/>
+                </div>
+            </Modal>}
         </>
     );
 };

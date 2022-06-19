@@ -1,4 +1,4 @@
-import {addRopeBrandToOrder, addRopeToOrder, addShopId} from "./actions";
+import {addRopeBrandToOrder, addRopeToOrder, addShopId, removeRopeFromOrder} from "./actions";
 
 export const addRopeOrder = (color_id, quantity, ropesOrder) => dispatch => {
     if (ropesOrder) {
@@ -7,11 +7,16 @@ export const addRopeOrder = (color_id, quantity, ropesOrder) => dispatch => {
 }
 
 export const ropesOrderOperation = (order, color_id, quantity) => dispatch => {
-    if (order.length >= 1) {
+    if (order.length >= 0) {
         order = order.filter((item) => {
             return item.color_id !== color_id
         });
-        dispatch(addRopeToOrder([...order, {color_id, quantity}]));
+        if (quantity === 0) {
+            console.log(order);
+            dispatch(removeRopeFromOrder([...order]));
+        } else {
+            dispatch(addRopeToOrder([...order, {color_id, quantity}]));
+        }
     } else {
         dispatch(addRopeToOrder([{color_id, quantity}]));
     }

@@ -11,8 +11,8 @@ class controller {
     }
 
     async addShop(req, res) {
-        const {shopAddress} = req.body;
-        await ShopAddresses.create({address: shopAddress});
+        const {shop_address} = req.body;
+        await ShopAddresses.create({address: shop_address});
         return res.json('shop are successfully added')
     }
 }

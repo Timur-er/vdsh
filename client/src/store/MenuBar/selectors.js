@@ -1,1 +1,1 @@
-export const getIsMenuBarOpen = state => state.menu.isOpen;
+export const getIsMenuBarOpen = state => state.menu.is_open;

@@ -1,7 +1,7 @@
 require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const express = require('express');
-const ropesRouter = require('./router/ropesRouter');
+const productsRouter = require('./router/productsRouter');
 const userRouter = require('./router/userRouter');
 const orderRouter = require('./router/orderRouter');
 const shopRouter = require('./router/shopRouter')
@@ -13,6 +13,7 @@ const PORT = process.env.PORT || 5000;
 const options = {
     origin: 'http://localhost:3000',
     credentials: true,
+    exposedHeaders: ['Content-Disposition']
 }
 
 const app = express();
@@ -20,7 +21,7 @@ app.use(express.json());
 app.use(cors(options));
 app.use(cookieParser());
 
-app.use('/api/ropes', ropesRouter);
+app.use('/api/products', productsRouter);
 app.use('/api/user', userRouter);
 app.use('/api/order', orderRouter);
 app.use('/api/shop', shopRouter);

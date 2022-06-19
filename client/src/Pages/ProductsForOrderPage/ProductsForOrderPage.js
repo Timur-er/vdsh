@@ -3,8 +3,8 @@ import styles from './ProductsForOrderPage.module.scss';
 import {getAllOrdersForOrder, getProductsForOrderByBrand} from "../../http/orderAPI";
 import Button from "../../Components/Button/Button";
 import Order from "../../Components/Order/Order";
-import Header from "../../Components/Header/Header";
 import HeaderButtons from "../../Components/HeaderButtons/HeaderButtons";
+import OrderTable from "../../Components/OrderTable/OrderTable";
 
 const ProductsForOrderPage = () => {
     const [orders, setOrders] = useState(null);
@@ -12,13 +12,11 @@ const ProductsForOrderPage = () => {
     useEffect(async () => {
         const fetchedOrders = await getAllOrdersForOrder();
         setOrders(fetchedOrders.data)
-        console.log(fetchedOrders.data);
     }, [])
 
     const getOrders = async () => {
         const orders = await getProductsForOrderByBrand();
         setOrders(orders.data)
-        console.log(orders.data);
     }
 
 
@@ -36,7 +34,8 @@ const ProductsForOrderPage = () => {
                 <Button onClick={() => getOrders()} text={'Закази по брендам'} />
             </HeaderButtons>
             <main>
-                {renderOrder}
+                {/*{renderOrder}*/}
+                <OrderTable orders={orders} forManager={true} forOrder={true}/>
             </main>
         </div>
     );

@@ -1,1 +1,1 @@
-export const getIsModalOpen = store => store.modal.isOpen;
+export const getIsModalOpen = store => store.modal.is_open;

@@ -10,7 +10,7 @@ const $authHost = axios.create({
     baseURL: process.env.REACT_APP_API_URL
 })
 
-const $downloadFile = axios.create({
+const  $downloadFile = axios.create({
     withCredentials: true,
     baseURL: process.env.REACT_APP_API_URL,
     // headers: am I need header here?
@@ -19,7 +19,7 @@ const $downloadFile = axios.create({
 
 // нужно допилить этот функционал на бэке
 const authInterceptor = config => {
-    const token = JSON.parse(localStorage.getItem('jwtToken'));
+    const token = JSON.parse(localStorage.getItem('jwt_token'));
     config.headers.Authorization = `Bearer ${token}`;
     return config;
 }

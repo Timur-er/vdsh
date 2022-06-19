@@ -14,11 +14,17 @@
   padding: 15px 0 5px 0;
 }
 
+.selectWrapper {
+  display: flex;
+  justify-content: space-between;
+  vertical-align: center;
+  align-items: center;
+}
+
 .selectField {
-  width: max-content;
+  width: 40%;
   border: 1px solid lightgray;
   border-radius: 5px;
-  margin-left: 10px;
   color: cornflowerblue;
 }
 
@@ -83,14 +89,6 @@
   margin-top: 35px;
 }
 
-.orderSameData {
-  display: flex;
-  column-gap: 10px;
-  align-items: center;
-  vertical-align: center;
-  padding-bottom: 10px;
-}
-
 .table {
 
 }
@@ -109,6 +107,19 @@
   display: flex;
   flex-direction: column;
   padding: 15px 0 5px 0;
+}
+
+.modal {
+  &__contentWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  &__input {
+    border: 1px solid $mainBlueColor;
+    border-radius: 5px;
+    outline: none;
+  }
 }
 
 @media (min-width: $mobMin) and (max-width: $mobMax) {

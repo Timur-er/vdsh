@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import styles from './CreateOrderPage.module.scss';
-import {getAllRopesBrand, getRopesByBrand} from "../../http/ropesAPI";
-import RopesTable from "../../Components/RopesTable/RopesTable";
+import {getAllBrands, getProductsByBrand} from "../../http/productsAPI";
+import ProductsTable from "../../Components/ProductsTable/ProductsTable";
 import {useDispatch, useSelector} from "react-redux";
 import {setOrderBrandOperation, setShopAddressOperation} from "../../store/ropesOrder/operations";
 import {getRopesOrder} from "../../store/ropesOrder/selectors";
 import {getShopId} from "../../store/User/selectors";
 import Button from "../../Components/Button/Button";
-import Header from "../../Components/Header/Header";
 import HeaderButtons from "../../Components/HeaderButtons/HeaderButtons";
+import {openPopup} from "../../store/Popup/actions";
 
 const CreateOrderPage = () => {
     const [ropes, setRopes] = useState(null);
@@ -19,7 +19,7 @@ const CreateOrderPage = () => {
 
     useEffect(() => {
         async function fetchedBrands() {
-            const brands = await getAllRopesBrand();
+            const brands = await getAllBrands();
             return brands.data;
         }
 
@@ -29,17 +29,17 @@ const CreateOrderPage = () => {
 
     const getRopes = async (brand, id) => {
         if (order.length > 0) {
-            alert('Ви не підтвердили замовлення')
+            dispatch(openPopup('Ви не підтвердили замовлення!', true))
         } else {
-            const ropes = await getRopesByBrand(id)
+            const ropes = await getProductsByBrand(id)
             dispatch(setOrderBrandOperation(brand, id))
             setRopes(ropes.data)
         }
     }
 
     const selectBrandButtons = ropesBrand.map(brand => {
-        const {brandName, id} = brand;
-        return <Button key={id} onClick={() => getRopes(brandName, id)} text={brandName}/>
+        const {brand_name, id} = brand;
+        return <Button key={id} onClick={() => getRopes(brand_name, id)} text={brand_name}/>
     })
 
     return (
@@ -51,7 +51,7 @@ const CreateOrderPage = () => {
 
             <main className={styles.body}>
                 <div className={styles.ropesTableSection}>
-                    {ropes !== null && <RopesTable ropes={ropes}/>}
+                    {ropes !== null && <ProductsTable ropes={ropes}/>}
                 </div>
             </main>
         </div>

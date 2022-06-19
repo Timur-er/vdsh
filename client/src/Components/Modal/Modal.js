@@ -3,6 +3,7 @@ import styles from './Modal.module.scss';
 import OrderDetailsTable from "../OrderDetailsTable/OrderDetailsTable";
 import {useDispatch} from "react-redux";
 import {closeModal} from "../../store/modal/actions";
+import ChangeStatusSelect from "../ChangeStatusSelect/ChangeStatusSelect";
 
 const Modal = ({children}) => {
     const dispatch = useDispatch();
@@ -22,8 +23,6 @@ const Modal = ({children}) => {
     return (
         <div onClick={(e) => close(e)} className={styles.modalFade}>
             <div className={styles.modal} ref={modalRef}>
-                {/*<div>*/}
-                {/*</div>*/}
                 <div className='modal__body'>
                     {children}
                 </div>

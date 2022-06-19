@@ -6,10 +6,10 @@ const cookieConfig = {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true}
 class UserController {
     async registration(req, res, next) {
         try {
-            const {email, name, surname, shopAddress, password} = req.body;
-            const userData = await userService.registration(email, name, surname, shopAddress, password);
-            res.cookie('refreshToken', userData.refreshToken, {...cookieConfig});
-            return res.json(userData);
+            const {email, name, surname, shop_address, password} = req.body;
+            const user_data = await userService.registration(email, name, surname, shop_address, password);
+            res.cookie('refresh_token', user_data.refresh_token, {...cookieConfig});
+            return res.json(user_data);
         } catch (e) {
             next(e);
         }
@@ -18,10 +18,10 @@ class UserController {
     async login(req, res, next) {
         try {
             const {email, password} = req.body;
-            const userData = await userService.login(email, password);
-            console.log(userData);
-            res.cookie('refreshToken', userData.refreshToken, cookieConfig);
-            return res.json(userData);
+            const user_data = await userService.login(email, password);
+            console.log(user_data);
+            res.cookie('refresh_token', user_data.refresh_token, cookieConfig);
+            return res.json(user_data);
         } catch (e) {
             next(e);
         }
@@ -29,8 +29,8 @@ class UserController {
 
     async activate(req, res, next) {
         try {
-            const activationLink = req.params.link;
-            await userService.activate(activationLink);
+            const activation_link = req.params.link;
+            await userService.activate(activation_link);
             return res.redirect(process.env.CLIENT_URL);
         } catch (e) {
             next(e);
@@ -39,10 +39,9 @@ class UserController {
 
     async refresh(req, res, next) {
         try {
-            const {refreshToken} = req.cookies;
-            const userData = await userService.refresh(refreshToken);
-            // res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, secure: false, httpOnly: true});
-            res.cookie('refreshToken', userData.refreshToken, cookieConfig);
+            const {refresh_token} = req.cookies;
+            const userData = await userService.refresh(refresh_token);
+            res.cookie('refresh_token', userData.refresh_token, cookieConfig);
             return res.json(userData);
         } catch (e) {
             next(e);
@@ -55,9 +54,9 @@ class UserController {
 
     async logout(req, res, next) {
         try {
-            const {refreshToken} = req.cookies;
-            const token = await userService.logout(refreshToken);
-            res.clearCookie('refreshToken')
+            const {refresh_token} = req.cookies;
+            const token = await userService.logout(refresh_token);
+            res.clearCookie('refresh_token')
         } catch (e) {
             next(e);
         }
@@ -70,9 +69,9 @@ class UserController {
 
     async changeUserRole(req, res, next) {
         try {
-            const {user_id, newRole} = req.body;
-            const newUser = await userService.changeUserRole(user_id, newRole);
-            return res.json(newUser);
+            const {user_id, new_role} = req.body;
+            const new_user = await userService.changeUserRole(user_id, new_role);
+            return res.json(new_user);
         } catch (e) {
             next(e);
         }
