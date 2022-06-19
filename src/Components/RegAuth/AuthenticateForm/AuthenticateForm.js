@@ -6,10 +6,13 @@ import {loginAPI} from "../../../http/userAPI";
 import {useAuth} from "../../../Hooks/auth.hook";
 import {useNavigate} from "react-router-dom";
 import {USER_PAGE} from "../../../routes/const";
+import {useDispatch} from "react-redux";
+import {openPopup} from "../../../store/Popup/actions";
 
 const AuthenticateForm = () => {
     const {login} = useAuth();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const validationSchema = Yup.object({
         email: Yup.string().email('Не правильный email').required('Укажите email!'),
@@ -27,8 +30,9 @@ const AuthenticateForm = () => {
                 onSubmit={async (values, {setSubmitting}) => {
                     const {email: userEmail, password: userPassword} = values;
                     const authUser = await loginAPI(userEmail, userPassword);
-                    const {user_id, email, name, surname, shop_id, role, isActivated} = authUser.data.user;
-                    login(user_id, email, name, surname, shop_id, role, authUser.data.accessToken, isActivated);
+                    authUser.status !== 200 && dispatch(openPopup(authUser.data.message, true))
+                    const {user_id, email, name, surname, shop_id, role, is_activated} = authUser.data.user;
+                    login(user_id, email, name, surname, shop_id, role, authUser.data.access_token, is_activated);
                     navigate(USER_PAGE)
                     setSubmitting(false)
                 }}

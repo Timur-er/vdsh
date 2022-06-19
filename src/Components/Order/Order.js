@@ -4,7 +4,7 @@ import OrderTable from "../OrderTable/OrderTable";
 import Button from "../Button/Button";
 import {getExcel} from "../../http/orderAPI";
 
-const Order = ({orderStatus, orderDetails, brandName, orderId, orderDate, shop_address}) => {
+const Order = ({orderStatus, orderDetails, brandName, orderId, orderDate, shopAddress}) => {
     const [isOrderOpen, serIsOrderOpen] = useState(false);
     const [height, setHeight] = useState('0px');
     const orderData = useRef();
@@ -36,7 +36,7 @@ const Order = ({orderStatus, orderDetails, brandName, orderId, orderDate, shop_a
 
                 <div>
                     <span>Магазин: </span>
-                    <span>{shop_address}</span>
+                    <span>{shopAddress}</span>
                 </div>
 
                 <div>

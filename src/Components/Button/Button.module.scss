@@ -17,15 +17,18 @@
 }
 
 .detailsBtn {
-  color: $mainBlueColor;
+  color: white;
+  background-color: $mainBlueColor;
   font-weight: lighter;
   padding: 5px 10px;
-  background-color: inherit;
+  //background-color: inherit;
   border: 1px solid $borderColor;
   border-radius: 5px;
   transition: 0.3s ease all;
-}
 
-.detailsBtn:hover {
-  border: 1px solid $mainBlueColor;
+  &:hover {
+    cursor: pointer;
+    color: white;
+    border-color: white;
+  }
 }

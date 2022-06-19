@@ -1,13 +1,14 @@
 import React from 'react';
 import styles from './OrderDetailsTable.module.scss';
 import Button from "../Button/Button";
+import ChangeStatusSelect from "../ChangeStatusSelect/ChangeStatusSelect";
 
 const OrderDetailsTable = ({orderDetails}) => {
 
     const renderRows = orderDetails !== null && orderDetails.map(details => {
         const {color_id, quantity} = details;
         return (
-            <tr>
+            <tr key={color_id}>
                 <td className={styles.table__cell}>{color_id}</td>
                 <td className={styles.table__cell}>{quantity}</td>
             </tr>
@@ -15,11 +16,12 @@ const OrderDetailsTable = ({orderDetails}) => {
     })
     return (
         <div>
-            {/*<Button text={}/>*/}
             <table className={styles.table}>
                 <thead>
-                <th className={styles.table__headerCell}>Color</th>
-                <th className={styles.table__headerCell}>Quantity</th>
+                <tr className={styles.table__headerCell}>
+                    <th>Color</th>
+                    <th>Quantity</th>
+                </tr>
                 </thead>
                 <tbody className={styles.table__body}>
                 {renderRows}

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styles from './UserPage.module.scss';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getIsActivated, getShopId, getUserId} from "../../store/User/selectors";
 import {getOrderByShop, getOrderByUser} from "../../http/orderAPI";
 import Order from "../../Components/Order/Order";
@@ -8,8 +8,10 @@ import Button from "../../Components/Button/Button";
 import Header from "../../Components/Header/Header";
 import HeaderButtons from "../../Components/HeaderButtons/HeaderButtons";
 import OrderTable from "../../Components/OrderTable/OrderTable";
+import {openPopup} from "../../store/Popup/actions";
 
 const UserPage = () => {
+    const dispatch = useDispatch();
     const isActivated = useSelector(getIsActivated);
     const userId = useSelector(getUserId);
     const shopId = useSelector(getShopId)
@@ -23,9 +25,9 @@ const UserPage = () => {
     }, [])
 
     const showOrders = orderData !== null && orderData.map(order => {
-        const {brandName, order_date, order_id, order_status, orderDetails} = order;
+        const {brand_name, order_date, order_id, order_status, orderDetails} = order;
         return (
-            <Order brandName={brandName} orderDate={order_date} orderId={order_id} orderStatus={order_status}
+            <Order brandName={brand_name} orderDate={order_date} orderId={order_id} orderStatus={order_status}
                    orderDetails={orderDetails}/>
         )
     })
@@ -51,7 +53,7 @@ const UserPage = () => {
             <main className={styles.body}>
                 {/*показывать мои заказы сразу*/}
                 {/*{showOrders}*/}
-                <OrderTable orders={orderData} />
+                <OrderTable orders={orderData} forOrder={false}/>
             </main>
         </div>
     );

@@ -3,7 +3,7 @@ const snoop = () => {};
 const initialStore = {
     ropesOrder: {
         shop_id: '',
-        brandData: {},
+        brand_data: {},
         order: []
     },
     user: {
@@ -14,13 +14,13 @@ const initialStore = {
         shop_id: '',
         token: '',
         role: '',
-        isAuth: false,
+        is_auth: false,
         login: snoop,
-        isActivated: false
+        is_activated: false
     },
     menu: {
-        isOpen: true,
-        activePage: ''
+        is_open: true,
+        active_page: ''
     },
     availableRoutes: [],
     brands: {
@@ -29,7 +29,12 @@ const initialStore = {
     modal: {
         isOpen: false
     },
-    orders: []
+    orders: [],
+    popup: {
+        is_open: false,
+        message: '',
+        is_error: false
+    }
 }
 
 export default initialStore;

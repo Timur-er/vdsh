@@ -3,8 +3,10 @@ import styles from './SelectQuantity.module.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {getRopesOrder} from "../../store/ropesOrder/selectors";
 import {ropesOrderOperation} from "../../store/ropesOrder/operations";
+import {openPopup} from "../../store/Popup/actions";
+import store from "../../store/store";
 
-const SelectQuantity = ({color_id}) => {
+const SelectQuantity = ({color_id, storeQuantity}) => {
     let [quantity, setQuantity] = useState(0);
     const dispatch = useDispatch();
     const order = useSelector(getRopesOrder);
@@ -15,8 +17,8 @@ const SelectQuantity = ({color_id}) => {
     }
 
     const decrementQuantity = () => {
-        if (quantity === 0) {
-            alert('Количество не может быть меньше 0!')
+        if (quantity <= 0) {
+            dispatch(openPopup('Кількість не може бути менше 0!', true))
         } else {
             setQuantity(--quantity);
             dispatch(ropesOrderOperation(order, color_id, quantity))
@@ -35,7 +37,7 @@ const SelectQuantity = ({color_id}) => {
             <button onClick={decrementQuantity} className={styles.buttons} type={"button"}>
                 -
             </button>
-            <input onChange={changeQuantity} className={styles.inputWrapper} value={quantity} type="text"/>
+            <input onChange={changeQuantity} className={styles.inputWrapper} value={storeQuantity && storeQuantity.quantity || 0} type="text"/>
             <button onClick={incrementQuantity} className={styles.buttons} type={"button"}>
                 +
             </button>

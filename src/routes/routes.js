@@ -44,16 +44,6 @@ export const managerRoutes = [
                 name: 'Додати товар',
                 path: ADD_PRODUCTS,
                 element: <CreateItemField />,
-            },
-            {
-                name: 'Додати магазин',
-                path: ADD_SHOP,
-                element: <AddBrand />,
-            },
-            {
-                name: 'Додати бренд',
-                path: ADD_BRAND,
-                element: <AddBrand />,
             }
         ]
     },

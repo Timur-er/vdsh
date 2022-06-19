@@ -98,10 +98,15 @@
     transition: 0.3s ease all;
   }
 
+  &__buttonsWrapper {
+    display: flex;
+    gap: 20px;
+    justify-content: end;
+  }
+
   &__row:hover {
     background-color: $mainBlueColor;
     border-radius: 10px;
     color: white;
-    cursor: pointer;
   }
 }

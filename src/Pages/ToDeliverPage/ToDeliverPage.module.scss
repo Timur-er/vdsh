@@ -1,3 +1,5 @@
+@import "../../theme/styles/var";
+
 .pageContainer {
   display: flex;
   flex-direction: column;
@@ -6,16 +8,10 @@
 }
 
 .header {
-  height: 50px;
-  font-size: 24px;
-  display: flex;
-  align-items: center;
-  vertical-align: center;
-  column-gap: 50px;
-}
-
-.title {
-  font-size: 25px;
+  &__select {
+    display: flex;
+    gap: 20px;
+  }
 }
 
 .body {
@@ -26,5 +22,10 @@
 }
 
 .selectField {
-  
+  width: max-content;
+  border: 1px solid $borderColor;
+  border-radius: 5px;
+  margin-left: 10px;
+  color: $mainBlueColor;
 }
+

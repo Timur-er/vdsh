@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useAuth} from "./Hooks/auth.hook";
 import {authFunctionsActions} from "./store/User/actions";
 import AuthPage from "./Pages/AuthPage/AuthPage";
+import PopupMessage from "./Components/PopupMessage/PopupMessage";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
   return (
       <>
           {isAuth ? <AppRoutes/> : <AuthPage/>}
+          <PopupMessage />
       </>
   );
 }
