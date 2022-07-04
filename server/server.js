@@ -11,7 +11,7 @@ const errorHandler = require('./Middleware/ErrorHandlingMiddleware');
 const PORT = process.env.PORT || 5000;
 
 const options = {
-    origin: 'http://localhost:3000',
+    origin: process.env.CLIENT_URL,
     credentials: true,
     exposedHeaders: ['Content-Disposition']
 }
