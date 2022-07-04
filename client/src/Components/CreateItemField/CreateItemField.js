@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react';
-import styles from './CreateItemField.module.scss';
+import React, {useEffect, useRef, useState} from 'react';
 import {Form, Formik, Field, FieldArray, getIn} from "formik";
 import * as Yup from 'yup';
 import {addProductBrand, addProducts, getAllBrands} from "../../http/productsAPI";
@@ -10,12 +9,14 @@ import {getIsModalOpen} from "../../store/modal/selectors";
 import Modal from "../Modal/Modal";
 import Button from "../Button/Button";
 import {openPopup} from "../../store/Popup/actions";
+import styles from './CreateItemField.module.scss';
 
 const CreateItemField = () => {
     const [isHoveredIndex, setIsHoveredIndex] = useState(null);
     const [brands, setBrands] = useState(null);
     const isModalOpen = useSelector(getIsModalOpen);
     const [modalInputValue, setModalInputValue] = useState('');
+    const quantityRef = useRef(null);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -73,6 +74,12 @@ const CreateItemField = () => {
         ]
     }
 
+    const handleEnter = (key) => {
+        if (key.key === "Enter" && key.keyCode === 13) {
+            key.preventDefault();
+        }
+    }
+
     return (
         <>
             <Formik
@@ -88,7 +95,7 @@ const CreateItemField = () => {
                     }}
             >
                 {({values, touched, errors, handleChange, handleBlur, isValid }) => (
-                    <Form className={styles.form}>
+                    <Form onKeyDown={handleEnter} className={styles.form}>
                             <div className={styles.selectWrapper}>
                                 Производитель:
                                 <Field className={errors.brand && touched.brand ? `${styles.selectField} ${styles.errorInput}` : styles.selectField} as='select' name="brand">
@@ -118,20 +125,32 @@ const CreateItemField = () => {
                                                     <div key={index} className={styles.tableRow}>
                                                         <div className={styles.inputWrapper}>
                                                             <Field
+                                                                autoFocus
                                                                 name={color_id}
                                                                 onChange={handleChange}
                                                                 onBlur={handleBlur}
                                                                 className={Boolean(touchedColor_id && errorColor_id) ? `${styles.input} ${styles.errorInput}` : styles.input}
+                                                                onKeyDown={(key) => {
+                                                                    if (key.key === "Enter" && key.keyCode === 13) {
+                                                                        quantityRef.current.focus();
+                                                                    }
+                                                                }}
                                                             />
                                                         </div>
 
 
                                                         <div className={styles.inputWrapper}>
                                                             <Field
+                                                                innerRef={quantityRef}
                                                                 name={quantity}
                                                                 onChange={handleChange}
                                                                 onBlur={handleBlur}
                                                                 className={Boolean(touchedQuantity && errorQuantity) ? `${styles.input} ${styles.errorInput}` : styles.input}
+                                                                onKeyDown={async (key) => {
+                                                                    if (key.key === "Enter" && key.keyCode === 13) {
+                                                                        push({quantity: '', color_id: ''})
+                                                                    }
+                                                                }}
                                                             />
                                                         </div>
 

@@ -12,6 +12,8 @@ const brandService = require('../service/brand-service');
 const shopService = require('../service/shop-service');
 const xlsx = require("xlsx");
 const fs = require("fs");
+const path = require('path')
+const {add} = require("nodemon/lib/rules");
 
 class controller {
     async createOrder(req, res) {
@@ -25,19 +27,17 @@ class controller {
                 user_id,
                 shop_id,
                 brand_id,
-                order_status: 'active',
+                order_status: 'Активний',
                 order_date: date
             });
             const order_id = create_order.id;
-
-            console.log('order details');
-
-            await ropesService.updateAvailableQuantity(brand_id, shop_id, order_details)
 
             for (const order of order_details) {
                 const {color_id, quantity} = order;
                 await OrderDetails.create({order_id, color_id, quantity});
             }
+
+            await ropesService.updateAvailableQuantity(order_id, brand_id, shop_id, order_details)
 
             return res.json('Заказ успешно оформлен');
         } catch (e) {
@@ -123,26 +123,57 @@ class controller {
         }
     }
 
-    async getExcel(req, res) {
+    async getExcelByOrderId(req, res) {
         let order_id = req.params.order_id;
         const order_data = await orderService.getOrderById(order_id);
-        const work_book = xlsx.utils.book_new();
-        const work_sheet = xlsx.utils.json_to_sheet(order_data.order); //here we need to give data
-        xlsx.utils.book_append_sheet(work_book, work_sheet, `Заказ ${order_data.brand_name} на ${order_data.shop_name}`);
-        const file_name = `${order_data.brand_name} id ${order_data.order_id}`;
-        // const file_name = `Заказ ${order_data.brand_name} на ${order_data.shop_name}`;
-        const work_book_options = {bookType: 'xlsx', type: 'binary'};
-        xlsx.writeFile(work_book, file_name, work_book_options);
-        const stream = fs.createReadStream(file_name);
+        const excel = await orderService.jsonToExcel(order_data);
+        // const stream = fs.createReadStream(excel.file_path);
 
-        res.setHeader(
-            "Content-Type",
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            )
-        // res.setHeader('Content-Disposition', contentDisposition(file_name))
-        res.setHeader('Content-Disposition', `attachment; filename='${file_name}'`)
-        stream.pipe(res)
-        stream.on('close', () => stream.destroy())
+        res.setHeader('Content-Disposition', `attachment; filename=${excel.file_name}`);
+        res.end(xlsx.write(excel.work_book, {type: "buffer", bookType: 'xlsx'}));
+        // res.setHeader(
+        //     "Content-Type",
+        //     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        //     )
+        // res.setHeader('Content-Disposition', `attachment; filename='${file.file_name}'`)
+        // stream.pipe(res)
+    }
+
+    async getFilteredExcel(req, res) {
+        const {address, brand_name} = req.params;
+
+        // maybe I need to create file path here and then trow it to each function
+        let file_name = '';
+        const shop_id = address !== 'all' && await shopService.getShopId(address);
+        const brand_id = brand_name !== 'all' && await brandService.getBrandId(brand_name);
+        let orders = [];
+
+        if (brand_name === 'all') {
+            // file_name = `Усі замовлення на ${address}`;
+            file_name = `All orders for shop ${shop_id}`;
+            orders = await Orders.findAll({where: {shop_id: shop_id}});
+        } else if (address === 'all') {
+            file_name = `All orders for brand ${brand_name}`;
+            orders = await Orders.findAll({where: {brand_id: brand_id}});
+        } else {
+            file_name = `Order for shop ${shop_id} brand ${brand_name}`;
+            orders = await Orders.findAll({where: {brand_id: brand_id, shop_id: shop_id}})
+        }
+
+        let details = await orderService.getOrdersDetails(orders);
+        const excel = await orderService.jsonToExcel(details, file_name)
+
+        const stream = fs.createReadStream(excel.file_path);
+
+        // res.setHeader(
+        //     "Content-Type",
+        //     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        // )
+        // res.setHeader('Content-Disposition', `attachment; filename='${excel.file_name}'`)
+        // stream.pipe(res)
+        res.setHeader('Content-Disposition', `attachment; filename=${excel.file_name}`);
+        res.end(xlsx.write(excel.work_book, {type: "buffer", bookType: 'xlsx'}));
+
     }
 
     async getAllOrdersForOrder(req, res) {
@@ -153,23 +184,56 @@ class controller {
             const order_details = await ProductsForOrderDetails.findAll({where: {order_id: id}});
             const brand_name = await brandService.getBrandName(brand_id);
             const shop_address = await shopService.getShopName(shop_id);
-            products_for_order_details.push({order_id: id, brand_name, shop_address, order_date, order_status, order_details});
+            products_for_order_details.push({
+                order_id: id,
+                brand_name,
+                shop_address,
+                order_date,
+                order_status,
+                order_details
+            });
         }
 
         return res.json(products_for_order_details);
     }
 
+    // need to simplify next two functions
     async getFilteredOrders(req, res) {
-        const { brand_id, shop_id } = req.params;
+        const {brand_name, address} = req.params;
         let filtered_orders = [];
-        if (brand_id === 'all') {
+        if (brand_name === 'all' && address === 'all') {
+            filtered_orders = await Orders.findAll()
+        } else if (brand_name === 'all') {
+            const shop_id = await shopService.getShopId(address);
             filtered_orders = await Orders.findAll({where: {shop_id: shop_id}});
-        } else if (shop_id === 'all') {
-            filtered_orders = await Orders.findAll({where: {brand_id: brand_id}});
+        } else if (address === 'all') {
+            const brand_id = await brandService.getBrandId(brand_name);
+            filtered_orders = await Orders.findAll({where: {brand_id: brand_id}})
         } else {
-            filtered_orders = await Orders.findAll({where: {brand_id: brand_id, shop_id: shop_id}});
+            const brand_id = await brandService.getBrandId(brand_name);
+            const shop_id = await shopService.getShopId(address);
+            filtered_orders = await Orders.findAll({where: {brand_id: brand_id, shop_id: shop_id}})
         }
+        filtered_orders = await orderService.getOrdersDetails(filtered_orders);
+        return res.json(filtered_orders);
+    }
 
+    async getFilteredOrdersForOrder(req, res) {
+        const {brand_name, address} = req.params;
+        let filtered_orders = [];
+        if (brand_name === 'all' && address === 'all') {
+            filtered_orders = await ProductsForOrder.findAll()
+        } else if (brand_name === 'all') {
+            const shop_id = await shopService.getShopId(address);
+            filtered_orders = await ProductsForOrder.findAll({where: {shop_id: shop_id}});
+        } else if (address === 'all') {
+            const brand_id = await brandService.getBrandId(brand_name);
+            filtered_orders = await ProductsForOrder.findAll({where: {brand_id: brand_id}})
+        } else {
+            const brand_id = await brandService.getBrandId(brand_name);
+            const shop_id = await shopService.getShopId(address);
+            filtered_orders = await ProductsForOrder.findAll({where: {brand_id: brand_id, shop_id: shop_id}})
+        }
         filtered_orders = await orderService.getOrdersDetails(filtered_orders);
         return res.json(filtered_orders);
     }

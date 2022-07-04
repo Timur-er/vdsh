@@ -1,6 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
-import styles from './OrderTable.module.scss';
-import Icons from "../Icons/Icons";
+import React, {useRef, useState} from 'react';
 import Modal from "../Modal/Modal";
 import OrderDetailsTable from "../OrderDetailsTable/OrderDetailsTable";
 import {openModal} from "../../store/modal/actions";
@@ -8,7 +6,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {getIsModalOpen} from "../../store/modal/selectors";
 import ChangeStatusSelect from "../ChangeStatusSelect/ChangeStatusSelect";
 import Button from "../Button/Button";
-import {getExcel} from "../../http/orderAPI";
+import {getExcelByOrderId} from "../../http/orderAPI";
+import styles from './OrderTable.module.scss';
 
 const OrderTable = ({orders, forManager, forOrder}) => {
     const dispatch = useDispatch();
@@ -17,12 +16,12 @@ const OrderTable = ({orders, forManager, forOrder}) => {
     const selectRef = useRef();
 
     const openDetails = (details) => {
-        dispatch(openModal(true))
         setDetails(details);
+        dispatch(openModal(true))
     }
 
     const downloadExcel = async (orderId) => {
-        await getExcel(orderId);
+        await getExcelByOrderId(orderId);
     }
 
     const renderRows = orders !== null && orders.map((order, index) => {

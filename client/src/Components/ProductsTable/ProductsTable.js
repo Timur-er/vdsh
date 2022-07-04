@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './ProductsTable.module.scss';
 import SelectQuantity from "../SelectQuanity/SelectQuantity";
 import {useDispatch, useSelector} from "react-redux";
 import {getOrder, getRopesOrder} from "../../store/ropesOrder/selectors";
@@ -8,8 +7,7 @@ import {createOrder} from "../../http/orderAPI";
 import {clearOrder} from "../../store/ropesOrder/actions";
 import Button from "../Button/Button";
 import {openPopup} from "../../store/Popup/actions";
-import store from "../../store/store";
-
+import styles from './ProductsTable.module.scss';
 
 const ProductsTable = ({ropes}) => {
     const orderData = useSelector(getOrder);
@@ -18,14 +16,6 @@ const ProductsTable = ({ropes}) => {
     const storeOrder = useSelector(getRopesOrder);
 
     const ropesTable = ropes.map(product => {
-        // const currentQuantity = storeOrder.length !== 0 && storeOrder.filter(storeProduct => {
-        //     if (product.color_id === storeProduct.color_id) {
-        //         console.log(storeProduct);
-        //         return storeProduct.color_id;
-        //     } else {
-        //         return null;
-        //     }
-        // })
 
         const storeQuantity = storeOrder.find(storeProduct => storeProduct.color_id === product.color_id)
 

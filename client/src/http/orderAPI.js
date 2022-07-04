@@ -1,5 +1,4 @@
 import {$authHost, $host, $downloadFile} from "./index";
-import order from "../Components/Order/Order";
 
 export const createOrder = async (user_id, shop_id, brand_id, order_details) => {
     try {
@@ -37,9 +36,18 @@ export const getProductsForOrderByBrand = async () => {
     }
 }
 
-export const getFilteredOrder = async (brand_id, shop_id) => {
+export const getFilteredOrder = async (brand_name, address, for_order_flag) => {
     try {
-        const orders = await $host.get(`api/order/getFilteredOrders/${shop_id}&${brand_id}`);
+        const orders = await $host.get(`api/order/getFilteredOrders/${address}&${brand_name}`);
+        return orders;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export const getFilteredOrdersForOrder = async (brand_name, address) => {
+    try {
+        const orders = await $authHost.get(`api/order/getFilteredOrdersForOrder/${address}&${brand_name}`)
         return orders;
     } catch (e) {
         console.log(e);
@@ -55,9 +63,12 @@ export const getAllOrders = async () => {
     }
 }
 
-export const getExcel = async (order_id) => {
+export const getExcelByOrderId = async (order_id) => {
     try {
-        const response = await $downloadFile.get(`api/order/getExcelFile/${order_id}`);
+        const response = await $downloadFile.get(`api/order/getExcelFileByOrderId/${order_id}`);
+        // посмотреть как эту логику можно вынести, что бы она не повторялась
+        // я поменял на беке способ отправки файла, так что возможно и тут можно то-то поменять
+
         const fileName = response.headers['content-disposition'].substring(22, 51);
         const blob = new Blob([response.data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
         const href = URL.createObjectURL(blob)
@@ -71,6 +82,25 @@ export const getExcel = async (order_id) => {
         URL.revokeObjectURL(href);
     } catch
         (e) {
+        console.log(e);
+    }
+}
+
+export const getFilteredExcel = async (address, brand_name) => {
+    try {
+        const response = await $downloadFile.get(`api/order/getFilteredExcel/${address}&${brand_name}`);
+        const fileName = response.headers['content-disposition'].substring(22, 51);
+        const blob = new Blob([response.data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+        const href = URL.createObjectURL(blob)
+        const a = Object.assign(document.createElement("a"), {
+            href,
+            style: 'display: none',
+            download: fileName
+        })
+        document.body.appendChild(a);
+        a.click()
+        URL.revokeObjectURL(href);
+    } catch (e) {
         console.log(e);
     }
 }

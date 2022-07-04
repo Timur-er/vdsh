@@ -1,8 +1,8 @@
 import React, {useRef, useState} from 'react';
-import styles from './Order.module.scss';
 import OrderTable from "../OrderTable/OrderTable";
 import Button from "../Button/Button";
-import {getExcel} from "../../http/orderAPI";
+import {getExcelByOrderId} from "../../http/orderAPI";
+import styles from './Order.module.scss';
 
 const Order = ({orderStatus, orderDetails, brandName, orderId, orderDate, shopAddress}) => {
     const [isOrderOpen, serIsOrderOpen] = useState(false);
@@ -16,9 +16,7 @@ const Order = ({orderStatus, orderDetails, brandName, orderId, orderDate, shopAd
     }
 
     const getTable = async () => {
-
-        console.log(orderDetails);
-        const data = await getExcel(orderId);
+        const data = await getExcelByOrderId(orderId);
     }
 
     return (

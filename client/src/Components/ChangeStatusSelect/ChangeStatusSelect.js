@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './ChangeStatusSelect.module.scss';
 import {changeOrderStatus} from "../../http/orderAPI";
 import {useDispatch} from "react-redux";
 import {openPopup} from "../../store/Popup/actions";
+import styles from './ChangeStatusSelect.module.scss';
 
 const ChangeStatusSelect = ({ order_id, currentStatus, forOrder }) => {
     const dispatch = useDispatch();

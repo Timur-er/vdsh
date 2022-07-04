@@ -1,21 +1,20 @@
 import {
-    ADD_BRAND,
     ADD_PRODUCTS,
-    ADD_ROPES_IN_STOCK_PAGE, ADD_SHOP,
+    ADD_ROPES_IN_STOCK_PAGE,
     CHECK_ORDERS_PAGE,
     CREATE_ORDER, PRODUCTS_FOR_ORDER_PAGE,
     USER_LIST_PAGE,
-    USER_PAGE
+    USER_PAGE,
+    CHECK_DATA_BASE
 } from "./const";
 import AddProductsPage from "../Pages/AddProductsPage/AddProductsPage";
 import UserPage from "../Pages/UserPage/UserPage";
 import UsersListPage from "../Pages/UsersListPage/UsersListPage";
 import ToDeliverPage from "../Pages/ToDeliverPage/ToDeliverPage";
-import ProductsForOrderPage from "../Pages/ProductsForOrderPage/ProductsForOrderPage";
 import React from "react";
 import CreateOrderPage from "../Pages/CreateOrderPage/CreateOrderPage";
-import AddBrand from "../Components/AddBrand/AddBrand";
 import CreateItemField from "../Components/CreateItemField/CreateItemField";
+import DataBasePage from "../Pages/DataBasePage/DataBasePage";
 
 export const userRoutes = [
     {
@@ -44,6 +43,11 @@ export const managerRoutes = [
                 name: 'Додати товар',
                 path: ADD_PRODUCTS,
                 element: <CreateItemField />,
+            },
+            {
+                name: 'Відкрити базу',
+                path: CHECK_DATA_BASE,
+                element: <DataBasePage />
             }
         ]
     },
@@ -52,12 +56,6 @@ export const managerRoutes = [
         name: 'Для відправки',
         path: CHECK_ORDERS_PAGE,
         element: <ToDeliverPage />,
-    },
-    {
-        icon: 'toOrderIcon',
-        name: 'Для замовлення',
-        path: PRODUCTS_FOR_ORDER_PAGE,
-        element: <ProductsForOrderPage />,
     }
 ]
 

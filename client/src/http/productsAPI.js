@@ -10,6 +10,14 @@ export const addProducts = async (order, brand_name) => {
     }
 };
 
+ export const filterByProductId = async (id) => {
+     try {
+
+     } catch (e) {
+         console.log(e);
+     }
+}
+
 export const getAllProducts = async () => {
     const ropes = await $host.get('api/products/getAllProducts');
     return ropes;
@@ -33,6 +41,15 @@ export const addProductBrand = async (brand_name) => {
     try {
         const brand = await $authHost.post('api/products/addProductBrand', {brand_name})
         return brand;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export const changeProductInfo = async (prev_product_id, new_product_id, quantity, brand_id) => {
+    try {
+        const res = await $authHost.post(`api/products/changeProductInfo/${prev_product_id}&${new_product_id}&${quantity}&${brand_id}`)
+        return res;
     } catch (e) {
         console.log(e);
     }

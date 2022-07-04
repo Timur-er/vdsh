@@ -16,10 +16,13 @@
   &__cell {
     text-align: center;
     padding: 10px;
-
   }
 
   &__row {
-
+    //background-color: #ff6d6d;
   }
+}
+
+.unavailableProduct {
+  color: red;
 }

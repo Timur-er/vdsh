@@ -5,7 +5,6 @@ import UserRoutes from "./UserRoutes";
 import ManagerRoutes from "./ManagerRoutes";
 import AdminRoutes from "./AdminRoutes";
 import AppContainer from "../Components/AppContainer/AppContainer";
-import PopupMessage from "../Components/PopupMessage/PopupMessage";
 
 const AppRoutes = () => {
     return (

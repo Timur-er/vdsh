@@ -1,14 +1,11 @@
-import React, {useEffect, useRef, useState} from 'react';
-import styles from './Modal.module.scss';
-import OrderDetailsTable from "../OrderDetailsTable/OrderDetailsTable";
+import React, {useRef} from 'react';
 import {useDispatch} from "react-redux";
 import {closeModal} from "../../store/modal/actions";
-import ChangeStatusSelect from "../ChangeStatusSelect/ChangeStatusSelect";
+import styles from './Modal.module.scss';
 
 const Modal = ({children}) => {
     const dispatch = useDispatch();
     const modalRef = useRef(null);
-    const closeRef = useRef(null);
 
     if (!children){
         dispatch(closeModal(false))

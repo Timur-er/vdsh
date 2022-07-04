@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import styles from './CreateOrderPage.module.scss';
 import {getAllBrands, getProductsByBrand} from "../../http/productsAPI";
 import ProductsTable from "../../Components/ProductsTable/ProductsTable";
 import {useDispatch, useSelector} from "react-redux";
@@ -9,6 +8,7 @@ import {getShopId} from "../../store/User/selectors";
 import Button from "../../Components/Button/Button";
 import HeaderButtons from "../../Components/HeaderButtons/HeaderButtons";
 import {openPopup} from "../../store/Popup/actions";
+import styles from './CreateOrderPage.module.scss';
 
 const CreateOrderPage = () => {
     const [ropes, setRopes] = useState(null);

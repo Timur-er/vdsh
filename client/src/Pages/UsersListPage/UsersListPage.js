@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {getAllUsers} from "../../http/userAPI";
-import styles from './UsersListPage.module.scss';
 import UsersTable from "../../Components/UsersTable/UsersTable";
-import Header from "../../Components/Header/Header";
+import styles from './UsersListPage.module.scss';
 
 const UsersListPage = () => {
     const [users, setUsers] = useState(null);
@@ -17,7 +16,7 @@ const UsersListPage = () => {
 
     return (
         <main className={styles.pageContainer}>
-            <Header title={'Список працівників'} />
+            <h1>Список працівників</h1>
             <main className={styles.body}>
                 <UsersTable users={users}/>
             </main>

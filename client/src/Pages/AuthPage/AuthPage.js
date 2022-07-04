@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {Tab, TabList, Tabs, TabPanel} from "react-tabs";
 import RegistrationForm from "../../Components/RegAuth/RegistarationForm/RegistrationForm";
 import AuthenticateForm from "../../Components/RegAuth/AuthenticateForm/AuthenticateForm";
-import styles from './AuthPage.module.scss'
 import AppContainer from "../../Components/AppContainer/AppContainer";
+import styles from './AuthPage.module.scss'
 
 const AuthPage = () => {
     const [tabIndex, setTabIndex] = useState(0);

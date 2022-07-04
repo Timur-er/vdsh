@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import styles from './ContentContainer.module.scss';
 import {useSelector} from "react-redux";
 import {getIsMenuBarOpen} from "../../store/MenuBar/selectors";
+import styles from './ContentContainer.module.scss';
 
 const ContentContainer = ({children}) => {
     const isMenuOpen = useSelector(getIsMenuBarOpen);

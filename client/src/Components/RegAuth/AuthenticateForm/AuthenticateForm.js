@@ -1,13 +1,13 @@
 import React from 'react';
 import {Form, Formik, Field, ErrorMessage} from "formik";
 import * as Yup from 'yup';
-import styles from './AuthenticateForm.module.scss';
 import {loginAPI} from "../../../http/userAPI";
 import {useAuth} from "../../../Hooks/auth.hook";
 import {useNavigate} from "react-router-dom";
 import {USER_PAGE} from "../../../routes/const";
 import {useDispatch} from "react-redux";
 import {openPopup} from "../../../store/Popup/actions";
+import styles from './AuthenticateForm.module.scss';
 
 const AuthenticateForm = () => {
     const {login} = useAuth();

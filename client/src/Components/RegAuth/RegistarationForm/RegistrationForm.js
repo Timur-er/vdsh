@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from 'yup';
-import styles from './RegistrationForm.module.scss';
 import {registrationAPI} from "../../../http/userAPI";
 import {USER_PAGE} from "../../../routes/const";
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../../../Hooks/auth.hook";
 import {getAllShops} from "../../../http/shopAPI";
+import styles from './RegistrationForm.module.scss';
 
 const RegistrationForm = () => {
     const {login} = useAuth();

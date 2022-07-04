@@ -9,8 +9,10 @@ router.get('/getOrderByShop/:shop_id', controller.getOrderByShop)
 router.get('/getProductsForOrderByBrand', controller.getProductsForOrderByBrand);
 router.get('/getAllOrdersForOrder', controller.getAllOrdersForOrder)
 router.get('/getAllOrders', controller.getAllOrders);
-router.get('/getExcelFile/:order_id', controller.getExcel)
+router.get('/getExcelFileByOrderId/:order_id', controller.getExcelByOrderId)
+router.get('/getFilteredExcel/:address&:brand_name', controller.getFilteredExcel)
 router.post('/changeOrderStatus', controller.changeOrderStatus)
-router.get('/getFilteredOrders/:shop_id&:brand_id', controller.getFilteredOrders)
+router.get('/getFilteredOrders/:address&:brand_name', controller.getFilteredOrders)
+router.get('/getFilteredOrdersForOrder/:address&:brand_name', controller.getFilteredOrdersForOrder)
 
 module.exports = router;

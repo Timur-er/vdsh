@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import styles from './BurgerBtn.module.scss';
 import {useDispatch} from "react-redux";
 import {menuBarToggleOperation} from "../../../store/MenuBar/operations";
+import styles from './BurgerBtn.module.scss';
 
 const BurgerBtn = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(true);

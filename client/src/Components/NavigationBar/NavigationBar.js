@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import styles from './NavigationBar.module.scss';
 import BurgerBtn from "./BurgerBtn/BurgerBtn";
 import {useSelector} from "react-redux";
 import {getIsMenuBarOpen} from "../../store/MenuBar/selectors";
 import MenuBarLink from "../MenuBarLink/MenuBarLink";
 import {getAvailableRoutes} from "../../store/Routes/selectors";
 import {useLocation} from "react-router-dom";
+import styles from './NavigationBar.module.scss';
 
 
 const NavigationBar = () => {

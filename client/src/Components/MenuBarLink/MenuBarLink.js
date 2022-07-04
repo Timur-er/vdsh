@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {NavLink} from "react-router-dom";
-import styles from './MenuBarLink.module.scss';
 import Icons from "../Icons/Icons";
+import styles from './MenuBarLink.module.scss';
 
 const MenuBarLink = ({icon = 'userIcon', path, name, color, isActive}) => {
 

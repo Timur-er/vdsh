@@ -1,34 +1,18 @@
 const {Orders, ropesBrand, OrderDetails, ProductsForOrder, ProductsForOrderDetails, ShopAddresses} = require("../models/models");
 const shopService = require("./shop-service");
+const xlsx = require("xlsx");
+const path = require("path");
 
 class OrderService {
     async getOrdersByUser(user_id) {
         let user_orders = await Orders.findAll({where: {user_id}});
         user_orders = await this.getOrdersDetails(user_orders);
-        // const response_data = [];
-        // for (let order of user_order) {
-        //     const {id, brand_id, order_status, order_date} = order;
-        //     const brand_data = await ropesBrand.findOne({where: {id: brand_id}});
-        //     const {brand_name} = brand_data;
-        //     const order_details = await OrderDetails.findAll({where: {order_id: id}});
-        //     const order_data = {order_id: id, brand_name, order_status, order_date, order_details};
-        //     response_data.push(order_data);
-        // }
         return user_orders;
     }
 
     async getOrderByShop(shop_id) {
         let shop_orders = await Orders.findAll({where: {shop_id}});
         shop_orders = await this.getOrdersDetails(shop_orders);
-        // const response_data = [];
-        // for (let order of shop_orders) {
-        //     const {id, brand_id, order_status, order_date} = order;
-        //     const brand_data = await ropesBrand.findOne({where: {id: brand_id}});
-        //     const {brand_name} = brand_data;
-        //     const order_details = await OrderDetails.findAll({where: {order_id: id}});
-        //     const order_data = {order_id: id, brand_name, order_status, order_date, order_details};
-        //     response_data.push(order_data);
-        // }
         return shop_orders;
     }
 
@@ -54,7 +38,7 @@ class OrderService {
             return {color_id, quantity};
         })
 
-        const return_order_data = {order_id: order_id, brand_name, shop_name: shop_name, order: order};
+        const return_order_data = {order_id: order_id, brand_name, shop_name: shop_name, order_details: order};
         return return_order_data;
     }
 
@@ -64,13 +48,37 @@ class OrderService {
             const { id, brand_id, order_status, order_date, shop_id } = order;
             const brand_data = await ropesBrand.findOne({where: {id: brand_id}});
             const {brand_name} = brand_data;
-            const order_details = await OrderDetails.findAll({where: {order_id: id}});
+            let order_details = await OrderDetails.findAll({where: {order_id: id}});
+            let normalize_details = [];
+            order_details.forEach(details => {
+                normalize_details.push({color_id: details.color_id, quantity: details.quantity, is_available: details.is_available})
+            })
             const shop_address = await shopService.getShopName(shop_id);
-            const order_data = {order_id: id, brand_name, order_status, order_date, order_details, shop_address};
+            const order_data = {order_id: id, brand_name, order_status, order_date, order_details: normalize_details, shop_address};
             response_data.push(order_data);
         }
 
         return response_data;
+    }
+
+    async jsonToExcel(order_data, file_name) {
+        const work_book = xlsx.utils.book_new();
+        if (order_data.length >= 1) {
+            order_data.forEach(order => {
+                const { brand_name, shop_address, order_details, order_id } = order;
+                const work_sheet = xlsx.utils.json_to_sheet(order_details);
+                xlsx.utils.book_append_sheet(work_book, work_sheet, `${brand_name} на ${shop_address} номер ${order_id}`);
+            })
+        } else {
+            file_name = `${order_data.brand_name} id ${order_data.order_id}`;
+            const work_sheet = xlsx.utils.json_to_sheet(order_data.order_details);
+            xlsx.utils.book_append_sheet(work_book, work_sheet, `Заказ ${order_data.brand_name} на ${order_data.shop_name}`);
+        }
+        let file_path = path.basename(file_name);
+        file_path = path.resolve(__dirname+'/../Excel', file_path);
+        const work_book_options = {bookType: 'xlsx', type: 'binary'};
+        xlsx.writeFile(work_book, file_path, work_book_options);
+        return { file_path, file_name, work_book }
     }
 }
 

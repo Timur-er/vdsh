@@ -1,9 +1,8 @@
 @import "../../theme/styles/var";
 
-.selectField {
-  width: max-content;
+.search {
   border: 1px solid $borderColor;
   border-radius: 5px;
-  margin-left: 10px;
   color: $mainBlueColor;
+  outline: none;
 }

@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './PopupMessage.module.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {getIsPopupError, getIsPopupOpen, getPopupMessage} from "../../store/Popup/selectors";
 import {closePopup} from "../../store/Popup/actions";
+import styles from './PopupMessage.module.scss';
 
 const PopupMessage = () => {
     const dispatch = useDispatch();

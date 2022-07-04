@@ -8,7 +8,8 @@ import {getUserRole} from "../store/User/selectors";
 const UserRoutes = () => {
     const dispatch = useDispatch();
     const role = useSelector(getUserRole);
-    const isRoleAvailable = role === 'USER' || role === 'MANAGER' || role === 'ADMIN';
+    // const isRoleAvailable = role === 'USER' || role === 'MANAGER' || role === 'ADMIN';
+    const isRoleAvailable = role === 'USER';
     const routes = userRoutes.map(route => {
         return {path: route.path, element: route.element}
     })

@@ -54,6 +54,12 @@ class controller {
         const brand = await ropesBrand.findAll();
         return res.json(brand);
     }
+
+    async changeProductInfo(req, res) {
+        const { prev_product_id, new_product_id, quantity, brand_id } = req.params;
+        const product = await ropesInStock.update({color_id: new_product_id, quantity: quantity}, {where: {color_id: prev_product_id, brand_id: brand_id}});
+        return res.json('Дані змінено успішно!')
+    }
 }
 
 

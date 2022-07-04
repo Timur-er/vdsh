@@ -1,8 +1,8 @@
-const {ropesInStock} = require("../models/models");
+const {ropesInStock, OrderDetails} = require("../models/models");
 const orderService = require("./order-service");
 
 class ProductsService {
-    async updateAvailableQuantity(brand_id, shop_id, order_details) {
+    async updateAvailableQuantity(order_id, brand_id, shop_id, order_details) {
         let products_for_order = [];
         let out_of_stock = false;
         for (let order of order_details) {
@@ -14,6 +14,7 @@ class ProductsService {
                 out_of_stock = true;
                 const quantity = new_quantity * -1;
                 products_for_order.push({color_id, quantity})
+                await OrderDetails.update({is_available: false}, {where: {color_id: color_id, order_id: order_id}})
             }
         }
         if (out_of_stock) {

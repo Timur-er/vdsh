@@ -53,7 +53,8 @@ const Orders = sequelize.define('orders', {
 const OrderDetails = sequelize.define('orderDetails', {
     order_id: {type: DataTypes.INTEGER},
     color_id: {type: DataTypes.STRING},
-    quantity: {type: DataTypes.INTEGER}
+    quantity: {type: DataTypes.INTEGER},
+    is_available: {type: DataTypes.BOOLEAN, defaultValue: true}
 })
 
 

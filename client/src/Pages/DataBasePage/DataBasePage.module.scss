@@ -1,0 +1,57 @@
+@import "../../theme/styles/var";
+
+.main {
+  display: flex;
+  //width: 100%;
+  //border: 10px solid red;
+  justify-content: space-between;
+
+}
+
+.filtered {
+  display: flex;
+  gap: 20px;
+  width: 70%;
+  flex-wrap: wrap;
+
+}
+
+.filter {
+  width: 25%;
+}
+
+.modal {
+  &__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__inputsWrapper {
+    gap: 20px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__input {
+    border: 1px solid $borderColor;
+    border-radius: 5px;
+    color: $mainBlueColor;
+  }
+
+  &__prevValue {
+    color: red;
+  }
+
+  &__newValue {
+    color: green;
+  }
+}

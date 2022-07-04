@@ -12,7 +12,6 @@
   width: 40%;
   border-radius: 5px;
   border: 1px solid cornflowerblue;
-  //box-shadow: 0 0 40px 10px cornflowerblue;
 }
 
 .buttonBlock {
@@ -73,10 +72,6 @@
   .tabs {
     width: 70%;
   }
-  //.authPage {
-  //  margin-top: 0;
-  //  height: 100%;
-  //}
 }
 
 @media (min-width: $mobMin) and (max-width: $mobMax) {
