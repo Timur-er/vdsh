@@ -5,7 +5,6 @@ const cookieConfig = {
     maxAge: 30 * 24 * 60 * 60 * 1000,
     sameSite: 'none',
     secure: true,
-    domain: process.env.CLIENT_URL,
 }
 
 class UserController {
@@ -13,7 +12,7 @@ class UserController {
         try {
             const {email, name, surname, shop_address, password} = req.body;
             const user_data = await userService.registration(email, name, surname, shop_address, password);
-            res.cookie('refresh_token', user_data.refresh_token, cookieConfig);
+            res.cookies('refresh_token', user_data.refresh_token, cookieConfig);
             return res.json(user_data);
         } catch (e) {
             next(e);
