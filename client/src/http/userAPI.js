@@ -1,5 +1,4 @@
 import {$authHost, $host} from './index';
-import cookie from 'react-cookie';
 
 export const registrationAPI = async (email, name, surname, shop_address, password) => {
     const response = await $host.post('api/user/registration', {email, name, surname, shop_address, password});
@@ -10,7 +9,6 @@ export const loginAPI = async (email, password) => {
     const response = await $host.post('api/user/login', {email, password}).catch(e => {
         return e.response
     })
-    cookie.save('refresh_token', response.data.refresh_token, {path: '/'})
     return response;
 }
 
