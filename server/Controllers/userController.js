@@ -1,14 +1,18 @@
 const userService = require('../service/user-service');
 
 
-const cookieConfig = {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true}
+const cookieConfig = {
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    sameSite: 'none',
+    secure: true,
+}
 
 class UserController {
     async registration(req, res, next) {
         try {
             const {email, name, surname, shop_address, password} = req.body;
             const user_data = await userService.registration(email, name, surname, shop_address, password);
-            res.cookie('refresh_token', user_data.refresh_token, {...cookieConfig});
+            // res.cookie('refresh_token', user_data.refresh_token, cookieConfig);
             return res.json(user_data);
         } catch (e) {
             next(e);
@@ -20,7 +24,7 @@ class UserController {
             const {email, password} = req.body;
             const user_data = await userService.login(email, password);
             console.log(user_data);
-            res.cookie('refresh_token', user_data.refresh_token, cookieConfig);
+            // res.cookie('refresh_token', user_data.refresh_token, cookieConfig);
             return res.json(user_data);
         } catch (e) {
             next(e);
@@ -41,7 +45,7 @@ class UserController {
         try {
             const {refresh_token} = req.cookies;
             const userData = await userService.refresh(refresh_token);
-            res.cookie('refresh_token', userData.refresh_token, cookieConfig);
+            // res.cookie('refresh_token', userData.refresh_token, cookieConfig);
             return res.json(userData);
         } catch (e) {
             next(e);
