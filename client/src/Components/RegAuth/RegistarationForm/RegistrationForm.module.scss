@@ -2,14 +2,16 @@
 
 .formWrapper {
   display: flex;
-  //width: 100%;
   padding: 20px;
+  width: 100%;
 }
 
 .form {
   width: 100%;
   display: flex;
   flex-direction: column;
+  //align-items: center;
+  //justify-content: center;
 }
 
 .input {
@@ -19,6 +21,8 @@
   border: none;
   border-radius: 10px;
   margin-bottom: 30px;
+  outline: none;
+  margin-top: 10px;
 }
 
 .errorMessage {
@@ -31,14 +35,22 @@
   column-gap: 50px;
 }
 
-.select {
+.selectWrapper {
   display: flex;
   vertical-align: center;
   align-items: center;
 }
 
+.buttonWrapper {
+  width: 95%;
+  display: flex;
+  justify-content: center;
+}
+
 .submitButton {
-  padding: 5px;
+  width: 40%;
+  padding: 10px;
+  color: $mainBlueColor;
   background-color: white;
   border-radius: 10px;
   border: none;
@@ -49,8 +61,15 @@
   cursor: pointer;
 }
 
+.select {
+  border: 1px solid $borderColor;
+  border-radius: 5px;
+  margin-left: 10px;
+  color: $mainBlueColor;
+}
+
 @media (min-width: $mobMin) and (max-width: $mobMax) {
-  .select {
+  .selectWrapper {
     flex-direction: column;
     align-items: start;
   }

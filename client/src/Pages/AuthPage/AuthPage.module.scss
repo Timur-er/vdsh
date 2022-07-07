@@ -42,7 +42,7 @@
 }
 
 .authWay {
-  color: black;
+  color: cornflowerblue;
   font-size: 20px;
   border: none;
   width: 50%;
@@ -56,10 +56,12 @@
 
 .activeAuthWay {
   background-color: cornflowerblue;
+  color: white;
 }
 
 .form {
   padding: 0 20px;
+  color: white;
 }
 
 .activeAuthForm {

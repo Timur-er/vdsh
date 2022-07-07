@@ -43,7 +43,7 @@ const AuthenticateForm = () => {
                             <Form className={styles.form}>
                                 <label>
                                     <div>
-                                        User name:
+                                        Електронна пошта:
                                         <span className={styles.errorMessage}>
                                             <ErrorMessage name={'email'}/>
                                         </span>
@@ -53,7 +53,7 @@ const AuthenticateForm = () => {
 
                                 <label>
                                     <div>
-                                        Password:
+                                        Пароль:
                                         <span className={styles.errorMessage}>
                                             <ErrorMessage name={'password'}/>
                                         </span>
@@ -61,7 +61,7 @@ const AuthenticateForm = () => {
                                     <Field className={styles.input} type={'password'} name={'password'}/>
                                 </label>
 
-                                <div>
+                                <div className={styles.buttonWrapper}>
                                     <button className={styles.submitButton} type={'submit'}>Войти</button>
                                 </div>
                             </Form>

@@ -19,6 +19,8 @@
   border: none;
   border-radius: 10px;
   margin-bottom: 30px;
+  outline: none;
+  margin-top: 10px;
 }
 
 .errorMessage {
@@ -26,12 +28,20 @@
   color: red;
 }
 
+.buttonWrapper {
+  width: 95%;
+  display: flex;
+  justify-content: center;
+}
+
 .submitButton {
+  width: 40%;
   padding: 5px;
-  background-color: white;
   border-radius: 10px;
   border: none;
   margin-top: 30px;
+  color: cornflowerblue;
+  background-color: white;
 }
 
 .submitButton:hover {

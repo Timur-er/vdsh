@@ -74,7 +74,7 @@ const RegistrationForm = () => {
                             <Form className={styles.form}>
                                 <label>
                                     <div>
-                                        Email:
+                                        Електронна пошта:
                                         <span className={styles.errorMessage}>
                                             <ErrorMessage name={'email'}/>
                                         </span>
@@ -87,7 +87,7 @@ const RegistrationForm = () => {
 
                                 <label>
                                     <div>
-                                        Имя
+                                        Імʼя
                                         <span className={styles.errorMessage}>
                                             <ErrorMessage name={'name'}/>
                                         </span>
@@ -100,7 +100,7 @@ const RegistrationForm = () => {
 
                                 <label>
                                     <div>
-                                        Фамилия
+                                        Фамілія
                                         <span className={styles.errorMessage}>
                                             <ErrorMessage name={'surname'}/>
                                         </span>
@@ -126,7 +126,7 @@ const RegistrationForm = () => {
 
                                 <label>
                                     <div>
-                                        Подтвердите пароль
+                                        Підтвердіть пароль
                                         <span className={styles.errorMessage}>
                                             <ErrorMessage name={'confirmPassword'}/>
                                         </span>
@@ -139,14 +139,15 @@ const RegistrationForm = () => {
 
                                 <div className={styles.selectBlock}>
 
-                                    <label className={styles.select}>
+                                    <label className={styles.selectWrapper}>
                                         <div>
-                                            Адрес магазина в котором вы работаете:
+                                            Адреса магазину у якому ви працюєте:
                                             <span className={styles.errorMessage}>
                                             <ErrorMessage name={'shopAddress'}/>
                                         </span>
                                         </div>
                                         <Field
+                                            className={styles.select}
                                             as='select'
                                             name='shopAddress'>
                                             <option value={''}></option>
@@ -155,8 +156,8 @@ const RegistrationForm = () => {
                                     </label>
                                 </div>
 
-                                <div>
-                                    <button className={styles.submitButton} type={'submit'}>Зарегистрироваться</button>
+                                <div className={styles.buttonWrapper}>
+                                    <button className={styles.submitButton} type={'submit'}>Зарееструватися</button>
                                 </div>
                             </Form>
                         </div>
