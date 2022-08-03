@@ -1,9 +1,9 @@
-const {ShopAddresses} = require('../models/models');
+const {shopAddresses} = require('../models/models');
 
 class controller {
     async getAllShops(req, res) {
         try {
-            const shops = await ShopAddresses.findAll();
+            const shops = await shopAddresses.findAll();
             return res.json(shops);
         } catch (e) {
             console.log(e);
@@ -12,7 +12,7 @@ class controller {
 
     async addShop(req, res) {
         const {shop_address} = req.body;
-        await ShopAddresses.create({address: shop_address});
+        await shopAddresses.create({address: shop_address});
         return res.json('shop are successfully added')
     }
 }

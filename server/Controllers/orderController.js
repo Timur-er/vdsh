@@ -1,10 +1,10 @@
 const {
-    Orders,
-    OrderDetails,
-    ropesBrand,
-    ProductsForOrder,
-    ProductsForOrderDetails,
-    ShopAddresses
+    orders: orders_model,
+    orderDetails,
+    brand,
+    productsForOrder,
+    productsForOrderDetails,
+    shopAddresses
 } = require('../models/models');
 const orderService = require('../service/order-service');
 const ropesService = require('../service/products-service');
@@ -12,18 +12,16 @@ const brandService = require('../service/brand-service');
 const shopService = require('../service/shop-service');
 const xlsx = require("xlsx");
 const fs = require("fs");
-const path = require('path')
-const {add} = require("nodemon/lib/rules");
 
 class controller {
     async createOrder(req, res) {
         try {
             const {user_id, shop_id, brand_id, order_details} = req.body;
-
+            console.log(req.body);
             let date = new Date();
             date = date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
 
-            const create_order = await Orders.create({
+            const create_order = await orders_model.create({
                 user_id,
                 shop_id,
                 brand_id,
@@ -34,7 +32,7 @@ class controller {
 
             for (const order of order_details) {
                 const {color_id, quantity} = order;
-                await OrderDetails.create({order_id, color_id, quantity});
+                await orderDetails.create({order_id, color_id, quantity});
             }
 
             await ropesService.updateAvailableQuantity(order_id, brand_id, shop_id, order_details)
@@ -69,9 +67,9 @@ class controller {
         try {
             const {order_id, new_status, forOrder} = req.body;
             if (forOrder) {
-                await ProductsForOrder.update({order_status: new_status}, {where: {id: order_id}});
+                await productsForOrder.update({order_status: new_status}, {where: {id: order_id}});
             } else {
-                await Orders.update({order_status: new_status}, {where: {id: order_id}})
+                await orders_model.update({order_status: new_status}, {where: {id: order_id}})
             }
             return res.json('Статус змінено успішно')
         } catch (e) {
@@ -81,15 +79,15 @@ class controller {
 
     async getAllOrders(req, res) {
         try {
-            const orders = await Orders.findAll();
+            const orders = await orders_model.findAll();
             const response_data = [];
             for (let order of orders) {
                 const {id, brand_id, order_status, order_date, shop_id} = order;
-                const brandData = await ropesBrand.findOne({where: {id: brand_id}});
+                const brandData = await brand.findOne({where: {id: brand_id}});
                 const {brand_name} = brandData;
-                const order_details = await OrderDetails.findAll({where: {order_id: id}});
+                const order_details = await orderDetails.findAll({where: {order_id: id}});
 
-                const shop_data = await ShopAddresses.findOne({where: {id: shop_id}})
+                const shop_data = await shopAddresses.findOne({where: {id: shop_id}})
 
                 const shop_address = shop_data.address;
                 const order_data = {order_id: id, brand_name, order_status, shop_address, order_date, order_details};
@@ -104,11 +102,11 @@ class controller {
     async getProductsForOrderByBrand(req, res) {
         try {
             const products_for_order = [];
-            const orders = await ProductsForOrder.findAll();
+            const orders = await productsForOrder.findAll();
             for (let order of orders) {
                 const {brand_id, order_status, id, order_date} = order;
-                const brand_name = await ropesBrand.findOne({where: {id: brand_id}});
-                const order_details = await ProductsForOrderDetails.findAll({where: {products_for_order_id: id}});
+                const brand_name = await brand.findOne({where: {id: brand_id}});
+                const order_details = await productsForOrderDetails.findAll({where: {products_for_order_id: id}});
                 products_for_order.push({
                     brand_name: brand_name.brandName,
                     order_status,
@@ -127,22 +125,15 @@ class controller {
         let order_id = req.params.order_id;
         const order_data = await orderService.getOrderById(order_id);
         const excel = await orderService.jsonToExcel(order_data);
-        // const stream = fs.createReadStream(excel.file_path);
-
-        res.setHeader('Content-Disposition', `attachment; filename=${excel.file_name}`);
+        let filename_ua = encodeURIComponent(excel.file_name)
+        console.log(filename_ua);
+        res.setHeader('Content-Disposition', `attachment; filename=${filename_ua}`);
         res.end(xlsx.write(excel.work_book, {type: "buffer", bookType: 'xlsx'}));
-        // res.setHeader(
-        //     "Content-Type",
-        //     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        //     )
-        // res.setHeader('Content-Disposition', `attachment; filename='${file.file_name}'`)
-        // stream.pipe(res)
     }
 
     async getFilteredExcel(req, res) {
         const {address, brand_name} = req.params;
 
-        // maybe I need to create file path here and then trow it to each function
         let file_name = '';
         const shop_id = address !== 'all' && await shopService.getShopId(address);
         const brand_id = brand_name !== 'all' && await brandService.getBrandId(brand_name);
@@ -150,15 +141,17 @@ class controller {
 
         if (brand_name === 'all') {
             // file_name = `Усі замовлення на ${address}`;
-            file_name = `All orders for shop ${shop_id}`;
-            orders = await Orders.findAll({where: {shop_id: shop_id}});
+            file_name = `Замовлення на магазин ${address}`;
+            orders = await orders_model.findAll({where: {shop_id: shop_id}});
         } else if (address === 'all') {
-            file_name = `All orders for brand ${brand_name}`;
-            orders = await Orders.findAll({where: {brand_id: brand_id}});
+            file_name = `Усі замовлення на ${brand_name}`;
+            orders = await orders_model.findAll({where: {brand_id: brand_id}});
         } else {
-            file_name = `Order for shop ${shop_id} brand ${brand_name}`;
-            orders = await Orders.findAll({where: {brand_id: brand_id, shop_id: shop_id}})
+            file_name = `Замовлення на ${address} виробник ${brand_name}`;
+            orders = await orders_model.findAll({where: {brand_id: brand_id, shop_id: shop_id}})
         }
+
+        file_name = encodeURIComponent(file_name)
 
         let details = await orderService.getOrdersDetails(orders);
         const excel = await orderService.jsonToExcel(details, file_name)
@@ -177,11 +170,11 @@ class controller {
     }
 
     async getAllOrdersForOrder(req, res) {
-        const orders_for_order = await ProductsForOrder.findAll();
+        const orders_for_order = await productsForOrder.findAll();
         let products_for_order_details = [];
         for (let order of orders_for_order) {
             const {shop_id, brand_id, order_date, order_status, id} = order;
-            const order_details = await ProductsForOrderDetails.findAll({where: {order_id: id}});
+            const order_details = await productsForOrderDetails.findAll({where: {order_id: id}});
             const brand_name = await brandService.getBrandName(brand_id);
             const shop_address = await shopService.getShopName(shop_id);
             products_for_order_details.push({
@@ -202,17 +195,17 @@ class controller {
         const {brand_name, address} = req.params;
         let filtered_orders = [];
         if (brand_name === 'all' && address === 'all') {
-            filtered_orders = await Orders.findAll()
+            filtered_orders = await orders_model.findAll()
         } else if (brand_name === 'all') {
             const shop_id = await shopService.getShopId(address);
-            filtered_orders = await Orders.findAll({where: {shop_id: shop_id}});
+            filtered_orders = await orders_model.findAll({where: {shop_id: shop_id}});
         } else if (address === 'all') {
             const brand_id = await brandService.getBrandId(brand_name);
-            filtered_orders = await Orders.findAll({where: {brand_id: brand_id}})
+            filtered_orders = await orders_model.findAll({where: {brand_id: brand_id}})
         } else {
             const brand_id = await brandService.getBrandId(brand_name);
             const shop_id = await shopService.getShopId(address);
-            filtered_orders = await Orders.findAll({where: {brand_id: brand_id, shop_id: shop_id}})
+            filtered_orders = await orders_model.findAll({where: {brand_id: brand_id, shop_id: shop_id}})
         }
         filtered_orders = await orderService.getOrdersDetails(filtered_orders);
         return res.json(filtered_orders);
@@ -222,20 +215,26 @@ class controller {
         const {brand_name, address} = req.params;
         let filtered_orders = [];
         if (brand_name === 'all' && address === 'all') {
-            filtered_orders = await ProductsForOrder.findAll()
+            filtered_orders = await productsForOrder.findAll()
         } else if (brand_name === 'all') {
             const shop_id = await shopService.getShopId(address);
-            filtered_orders = await ProductsForOrder.findAll({where: {shop_id: shop_id}});
-        } else if (address === 'all') {
+            filtered_orders = await productsForOrder.findAll({where: {shop_id: shop_id}});
+        } else if  (address === 'all') {
             const brand_id = await brandService.getBrandId(brand_name);
-            filtered_orders = await ProductsForOrder.findAll({where: {brand_id: brand_id}})
+            filtered_orders = await productsForOrder.findAll({where: {brand_id: brand_id}})
         } else {
             const brand_id = await brandService.getBrandId(brand_name);
             const shop_id = await shopService.getShopId(address);
-            filtered_orders = await ProductsForOrder.findAll({where: {brand_id: brand_id, shop_id: shop_id}})
+            filtered_orders = await productsForOrder.findAll({where: {brand_id: brand_id, shop_id: shop_id}})
         }
         filtered_orders = await orderService.getOrdersDetails(filtered_orders);
         return res.json(filtered_orders);
+    }
+
+    async deleteOrder(req, res) {
+        const {order_id} = req.params
+        await orders_model.destroy({where: {id: order_id}})
+        return res.json('Замовлення видалено!')
     }
 }
 

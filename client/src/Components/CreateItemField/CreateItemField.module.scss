@@ -31,9 +31,14 @@
 .tableRow {
   display: flex;
   column-gap: 75px;
-  padding: 0 0 15px 0;
+  padding: 10px 5px;
   vertical-align: center;
   align-items: center;
+  margin-top: 10px;
+}
+
+.duplicate {
+  border: 2px solid red
 }
 
 .inputsWrapper {

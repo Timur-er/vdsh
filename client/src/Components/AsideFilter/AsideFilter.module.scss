@@ -14,6 +14,10 @@
 
   }
 
+  &__option_title {
+    color: $mainBlueColor;
+  }
+
   &__options {
     width: max-content;
     border: 1px solid $borderColor;

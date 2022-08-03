@@ -11,7 +11,7 @@ export const ropesOrderOperation = (order, color_id, quantity) => dispatch => {
         order = order.filter((item) => {
             return item.color_id !== color_id
         });
-        if (quantity === 0) {
+        if (+quantity === 0 || quantity === '') {
             console.log(order);
             dispatch(removeRopeFromOrder([...order]));
         } else {

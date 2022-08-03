@@ -1,4 +1,4 @@
-const {Users, ShopAddresses} = require('../models/models')
+const {users: user_model, shopAddresses} = require('../models/models')
 const uuid = require('uuid');
 const mailService = require('./mail-service');
 const TokenService = require('./token-service');
@@ -7,16 +7,16 @@ const ApiError = require('../ApiError/ApiError')
 
 class UserService {
     async registration(email, name, surname, shop_address, password) {
-        const candidate = await Users.findOne({where: {email: email}});
+        const candidate = await user_model.findOne({where: {email: email}});
         if (candidate) {
             throw new Error('already register');
         }
         const hash_password = await bcrypt.hash(password, 4);
         const activation_link = uuid.v4();
 
-        const shop = await ShopAddresses.findOne({where: {address: shop_address}});
+        const shop = await shopAddresses.findOne({where: {address: shop_address}});
 
-        const user = await Users.create({
+        const user = await user_model.create({
             email,
             name,
             surname,
@@ -33,7 +33,7 @@ class UserService {
     }
 
     async login (email, password) {
-        const user = await Users.findOne({where: {email}});
+        const user = await user_model.findOne({where: {email}});
         if (!user) {
             throw ApiError.badRequest('Пользователь с таким email не найден');
         }
@@ -49,11 +49,11 @@ class UserService {
     }
 
     async activate(activation_link) {
-        const user = await Users.findOne({where: {activation_link}});
+        const user = await user_model.findOne({where: {activation_link}});
         if (!user) {
             throw new Error('incorrect link');
         }
-        await Users.update({is_activated: true}, {where: {activation_link}});
+        await user_model.update({is_activated: true}, {where: {activation_link}});
     }
 
     async logout(refresh_token) {
@@ -71,7 +71,7 @@ class UserService {
         if (!user_data || !token_from_db) {
             throw ApiError.internal('Unauthorized user');
         }
-        const user = await Users.findOne({where: {id: user_data.id}})
+        const user = await user_model.findOne({where: {id: user_data.id}})
         const {id, email, name, surname, shop_id, role, is_activated} = user;
         const tokens = await TokenService.generateTokens({id, email, name, surname, shop_id});
         await TokenService.saveToken(user.id, tokens.refresh_token);
@@ -79,12 +79,12 @@ class UserService {
     }
 
     async getAllUsers() {
-        const users = await Users.findAll();
+        const users = await user_model.findAll();
         return users;
     }
 
     async changeUserRole (user_id, role) {
-        const user = await Users.update({role}, {where: {id:user_id}})
+        const user = await user_model.update({role}, {where: {id:user_id}})
         return {user, message: 'Role was changed'};
     }
 }

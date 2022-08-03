@@ -16,9 +16,7 @@ const ProductsTable = ({ropes}) => {
     const storeOrder = useSelector(getRopesOrder);
 
     const ropesTable = ropes.map(product => {
-
         const storeQuantity = storeOrder.find(storeProduct => storeProduct.color_id === product.color_id)
-
         return (
             <div key={product.id} className={styles.ropeItem}>
                 <div className={styles.ropeId}>
@@ -33,8 +31,7 @@ const ProductsTable = ({ropes}) => {
 
     const confirmOrder = async () => {
         const {shop_id, brand_data, order} = orderData;
-        const {id: brand_id} = brand_data;
-        const fetchedOrder = await createOrder(user_id, shop_id, brand_id, order);
+        const fetchedOrder = await createOrder(user_id, shop_id, brand_data.brand_id, order);
         dispatch(openPopup(fetchedOrder.data, false))
         dispatch(clearOrder())
     }

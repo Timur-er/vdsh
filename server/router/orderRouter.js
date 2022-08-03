@@ -14,5 +14,6 @@ router.get('/getFilteredExcel/:address&:brand_name', controller.getFilteredExcel
 router.post('/changeOrderStatus', controller.changeOrderStatus)
 router.get('/getFilteredOrders/:address&:brand_name', controller.getFilteredOrders)
 router.get('/getFilteredOrdersForOrder/:address&:brand_name', controller.getFilteredOrdersForOrder)
+router.delete('/deleteOrder/:order_id', controller.deleteOrder)
 
 module.exports = router;

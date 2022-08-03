@@ -98,6 +98,10 @@
     transition: 0.3s ease all;
   }
 
+  &__deleted_row {
+   background-color: rgba(255, 0, 0, 0.27);
+  }
+
   &__buttonsWrapper {
     display: flex;
     gap: 20px;

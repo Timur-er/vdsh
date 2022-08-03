@@ -99,7 +99,6 @@ const DataBasePage = () => {
         setProducts(newProducts.data)
         dispatch(openPopup(response.data, false))
         dispatch(openModal(false));
-
     }
 
     return (
@@ -109,7 +108,7 @@ const DataBasePage = () => {
                     {renderProductItems}
                 </div>
                 <div className={styles.filter}>
-                    <AsideFilter brands={brands} getFilteredProducts={getFilteredProducts} setBrandId={setBrandId}/>
+                    <AsideFilter brands={brands} getFilteredProducts={getFilteredProducts} setBrandId={(id) => setBrandId(id)}/>
                 </div>
             </main>
             {

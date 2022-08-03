@@ -19,8 +19,8 @@ const OrderDetailsTable = ({orderDetails}) => {
             <table className={styles.table}>
                 <thead>
                 <tr className={styles.table__headerCell}>
-                    <th>Color</th>
-                    <th>Quantity</th>
+                    <th>Колір</th>
+                    <th>Кількість</th>
                 </tr>
                 </thead>
                 <tbody className={styles.table__body}>

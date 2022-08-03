@@ -27,20 +27,24 @@ const HeaderFilter = ({brandRef, shopRef, setIsFiltered, setButtonText, setOrder
         const brand_name = brandRef.current.value;
         const address = shopRef.current.value;
 
+        if (brand_name === 'all' && address === 'all') {
+            setIsFiltered(false);
+        } else if (brand_name !== 'all' && address !== 'all') {
+            setButtonText(`Завантажити таблицю. Магазин ${address} виробник ${brand_name}`);
+            setIsFiltered(true);
+        } else if (address === 'all') {
+            setButtonText(`Завантажити таблицю. Всі магазини, виробник ${brand_name}`);
+            setIsFiltered(true);
+        } else {
+            setButtonText(`Завантажити таблицю. Всі виробники на магазин ${address}`);
+            setIsFiltered(true);
+        }
+
         const filteredOrders = showProductsToOrder ?
             await getFilteredOrdersForOrder(brand_name, address)
             :
             await getFilteredOrder(brand_name, address);
         setOrders(filteredOrders.data);
-        setIsFiltered(true);
-
-        if (brand_name !== 'all' && address !== 'all') {
-            setButtonText(`Завантажити таблицю. Магазин ${address} виробник ${brand_name}`);
-        } else if (address === 'all') {
-            setButtonText(`Завантажити таблицю. Всі магазини, виробник ${brand_name}`);
-        } else {
-            setButtonText(`Завантажити таблицю. Всі виробники на магазин ${address}`);
-        }
     }
 
     const ordersByShop = shopAddresses !== null && shopAddresses.map(shop => {

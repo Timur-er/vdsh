@@ -69,13 +69,14 @@ export const getExcelByOrderId = async (order_id) => {
         // посмотреть как эту логику можно вынести, что бы она не повторялась
         // я поменял на беке способ отправки файла, так что возможно и тут можно то-то поменять
 
-        const fileName = response.headers['content-disposition'].substring(22, 51);
+        const fileName = response.headers['content-disposition'].slice(21);
+        const filename_ua = decodeURIComponent(fileName)
         const blob = new Blob([response.data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
         const href = URL.createObjectURL(blob)
         const a = Object.assign(document.createElement("a"), {
             href,
             style: 'display: none',
-            download: fileName
+            download: filename_ua
         })
         document.body.appendChild(a);
         a.click()
@@ -89,7 +90,8 @@ export const getExcelByOrderId = async (order_id) => {
 export const getFilteredExcel = async (address, brand_name) => {
     try {
         const response = await $downloadFile.get(`api/order/getFilteredExcel/${address}&${brand_name}`);
-        const fileName = response.headers['content-disposition'].substring(22, 51);
+        let fileName = response.headers['content-disposition'].slice(21);
+        fileName = decodeURIComponent(fileName)
         const blob = new Blob([response.data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
         const href = URL.createObjectURL(blob)
         const a = Object.assign(document.createElement("a"), {
@@ -117,6 +119,15 @@ export const getAllOrdersForOrder = async () => {
 export const changeOrderStatus = async (order_id, new_status, forOrder) => {
     try {
         const response = await $authHost.post('api/order/changeOrderStatus', {order_id, new_status, forOrder})
+        return response;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export const deleteOrder = async (order_id) => {
+    try {
+        const response = await $authHost.delete(`api/order/deleteOrder/${order_id}`)
         return response;
     } catch (e) {
         console.log(e);

@@ -28,8 +28,12 @@ const SelectQuantity = ({color_id, storeQuantity}) => {
     const changeQuantity = (e) => {
         e.preventDefault();
         const newQuantity = e.target.value;
-        setQuantity(newQuantity)
-        dispatch(ropesOrderOperation(order, color_id, newQuantity))
+        if  (isNaN(+newQuantity)) {
+            dispatch(openPopup('Можна вводити тільки цифри!', true))
+        } else {
+            setQuantity(newQuantity)
+            dispatch(ropesOrderOperation(order, color_id, newQuantity))
+        }
     }
 
     return (
@@ -37,7 +41,7 @@ const SelectQuantity = ({color_id, storeQuantity}) => {
             <button onClick={decrementQuantity} className={styles.buttons} type={"button"}>
                 -
             </button>
-            <input onChange={changeQuantity} className={styles.inputWrapper} value={storeQuantity && storeQuantity.quantity || 0} type="text"/>
+            <input onChange={changeQuantity} className={styles.inputWrapper} value={storeQuantity && storeQuantity.quantity || ''} type="text"/>
             <button onClick={incrementQuantity} className={styles.buttons} type={"button"}>
                 +
             </button>
